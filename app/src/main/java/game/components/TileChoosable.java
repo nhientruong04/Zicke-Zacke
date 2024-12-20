@@ -1,4 +1,4 @@
-package app.src.main.java.game.components;
+package game.components;
 
 public class TileChoosable {
 }

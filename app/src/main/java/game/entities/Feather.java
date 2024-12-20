@@ -1,4 +1,4 @@
-package app.src.main.java.game.entities;
+package game.entities;
 
 public class Feather {
 }

@@ -1,6 +1,6 @@
-package app.src.main.java.game.components;
+package game.components;
 
-public class Position {
+public class Position extends Component {
     public int tile_id;
     public int x;
     public int y;

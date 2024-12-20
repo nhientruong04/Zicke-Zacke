@@ -1,8 +1,8 @@
-package app.src.main.java.game.core.blueprints;
+package game.core.blueprints;
 
-import app.src.main.java.game.components.Position;
-import app.src.main.java.game.components.TileChoosable;
-import app.src.main.java.game.entities.Tile;
+import game.components.Position;
+import game.components.TileChoosable;
+import game.entities.Tile;
 
 import java.util.Map;
 

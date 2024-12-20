@@ -1,10 +1,10 @@
-package app.src.main.java.game.components;
+package game.components;
 
 import java.util.ArrayList;
 
-import app.src.main.java.game.entities.Feather;
+import game.entities.Feather;
 
-public class FeatherList {
+public class FeatherList extends Component {
     public ArrayList<Feather> feathers;
 
     public FeatherList(Feather feather) {

@@ -1,4 +1,4 @@
-package app.src.main.java.game.core.blueprints;
+package game.core.blueprints;
 
 import java.util.HashMap;
 import java.util.Map;

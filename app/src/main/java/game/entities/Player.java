@@ -1,7 +1,7 @@
-package app.src.main.java.game.entities;
+package game.entities;
 
-import app.src.main.java.game.components.Position;
-import app.src.main.java.game.components.FeatherList;
+import game.components.Position;
+import game.components.FeatherList;
 
 public class Player {
     public Position position;    

@@ -1,22 +1,25 @@
 package game;
 
-import app.src.main.java.game.core.blueprints.BlueprintRegistry;
-import app.src.main.java.game.entities.Feather;
-import app.src.main.java.game.components.*;
+import game.core.blueprints.BlueprintRegistry;
+import game.entities.Feather;
+import game.components.*;
 
 import java.util.Map;
 import java.util.HashMap;
 
 public class Main {
-    Map<String, Object> params = new HashMap<>();
 
-    Position position = new Position(0, 0, 0);
-    FeatherList feather_list = new FeatherList(new Feather());
+    public static void main(String[] args) {
+        Map<String, Object> params = new HashMap<String, Object>();
 
-    params.put("position", position);
-    params.put("feather_list", feather_list);
+        Position position = new Position(0, 0, 0);
+        FeatherList feather_list = new FeatherList(new Feather());
 
-    BlueprintRegistry.create("Player", params);
+        params.put("position", (Component) position);
+        params.put("feather_list", feather_list);
 
-    System.out.println("Check");
+        BlueprintRegistry.create("Player", params);
+
+        System.out.println("Check");   
+    }
 }

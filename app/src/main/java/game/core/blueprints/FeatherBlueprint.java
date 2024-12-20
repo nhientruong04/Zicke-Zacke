@@ -1,6 +1,6 @@
-package app.src.main.java.game.core.blueprints;
+package game.core.blueprints;
 
-import app.src.main.java.game.entities.Feather;
+import game.entities.Feather;
 import java.util.Map;
 
 public class FeatherBlueprint implements Blueprint<Feather>  {
