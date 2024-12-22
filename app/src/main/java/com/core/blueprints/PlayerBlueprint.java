@@ -1,8 +1,9 @@
-package game.core.blueprints;
+package com.core.blueprints;
 
-import game.entities.Player;
-import game.components.Position;
-import game.components.FeatherList;
+import com.components.FeatherList;
+import com.components.Position;
+import com.entities.Player;
+
 import java.util.Map;
 
 public class PlayerBlueprint implements Blueprint<Player>  {

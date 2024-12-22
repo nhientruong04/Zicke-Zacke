@@ -1,11 +1,11 @@
-package game.core;
+package com.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import game.entities.Tile;
-import game.nodes.Node;
-import game.systems.RenderSystem;
+import com.entities.Tile;
+import com.nodes.Node;
+import com.systems.RenderSystem;
 
 public class Initializer {
     Engine engine;

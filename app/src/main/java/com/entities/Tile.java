@@ -1,7 +1,7 @@
-package game.entities;
+package com.entities;
 
-import game.components.Position;
-import game.components.TileChoosable;
+import com.components.Position;
+import com.components.TileChoosable;
 
 public class Tile {
     public Position position;

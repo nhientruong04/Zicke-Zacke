@@ -1,9 +1,9 @@
-package game.core;
+package com.core;
 
-import game.components.Position;
-import game.components.TileChoosable;
-import game.core.blueprints.BlueprintRegistry;
-import game.entities.Tile;
+import com.components.Position;
+import com.components.TileChoosable;
+import com.core.blueprints.BlueprintRegistry;
+import com.entities.Tile;
 
 import java.util.Map;
 import java.util.HashMap;

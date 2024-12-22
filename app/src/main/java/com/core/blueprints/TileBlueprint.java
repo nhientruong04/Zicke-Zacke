@@ -1,8 +1,8 @@
-package game.core.blueprints;
+package com.core.blueprints;
 
-import game.components.Position;
-import game.components.TileChoosable;
-import game.entities.Tile;
+import com.components.Position;
+import com.components.TileChoosable;
+import com.entities.Tile;
 
 import java.util.Map;
 

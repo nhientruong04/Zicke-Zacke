@@ -1,4 +1,4 @@
-package game.components;
+package com.components;
 
 public class Position extends Component {
     public int tile_id;

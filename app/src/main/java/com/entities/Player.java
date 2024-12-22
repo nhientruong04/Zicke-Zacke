@@ -1,7 +1,7 @@
-package game.entities;
+package com.entities;
 
-import game.components.Position;
-import game.components.FeatherList;
+import com.components.FeatherList;
+import com.components.Position;
 
 public class Player {
     public Position position;    

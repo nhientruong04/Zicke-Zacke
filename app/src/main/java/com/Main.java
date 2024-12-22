@@ -1,12 +1,13 @@
-package game;
-
-import game.core.EntityCreator;
-import game.core.blueprints.BlueprintRegistry;
-import game.entities.Feather;
-import game.entities.Tile;
-import game.components.*;
+package com;
 
 import java.util.Map;
+
+import com.components.*;
+import com.core.EntityCreator;
+import com.core.blueprints.BlueprintRegistry;
+import com.entities.Feather;
+import com.entities.Tile;
+
 import java.util.HashMap;
 
 public class Main {

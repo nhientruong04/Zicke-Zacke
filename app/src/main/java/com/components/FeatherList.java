@@ -1,8 +1,8 @@
-package game.components;
+package com.components;
+
+import com.entities.Feather;
 
 import java.util.ArrayList;
-
-import game.entities.Feather;
 
 public class FeatherList extends Component {
     public ArrayList<Feather> feathers;

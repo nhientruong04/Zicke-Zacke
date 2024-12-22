@@ -1,6 +1,6 @@
-package game.nodes;
+package com.nodes;
 
-import game.components.Position;
+import com.components.Position;
 
 public class RenderNode extends Node {
     Position position;

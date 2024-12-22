@@ -1,7 +1,7 @@
-package game.core;
+package com.core;
 
-import game.components.Position;
-import game.nodes.RenderNode;
+import com.components.Position;
+import com.nodes.RenderNode;
 
 public class NodeCreator {
     public RenderNode createRenderNode(Position position) {

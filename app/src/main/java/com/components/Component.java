@@ -1,4 +1,4 @@
-package game.components;
+package com.components;
 
 public abstract class Component {
 }

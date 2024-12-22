@@ -1,8 +1,7 @@
-package game.core.blueprints;
+package com.core.blueprints;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class BlueprintRegistry {
 

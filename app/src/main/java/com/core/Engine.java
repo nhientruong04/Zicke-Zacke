@@ -1,8 +1,8 @@
-package game.core;
+package com.core;
 
 import java.util.ArrayList;
 
-import game.systems.RenderSystem;
+import com.systems.System;
 
 public class Engine {
     public EntityCreator entity_creator;

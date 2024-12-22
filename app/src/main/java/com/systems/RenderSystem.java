@@ -1,12 +1,12 @@
-package game.systems;
+package com.systems;
+
+import com.nodes.Node;
 
 import java.util.ArrayList;
 
-import game.nodes.Node;
-
 public class RenderSystem extends System {
 
-    protected ArrayList<Node> nodes;
+    private ArrayList<Node> nodes;
 
     public RenderSystem() {
         this.nodes = new ArrayList<Node>();

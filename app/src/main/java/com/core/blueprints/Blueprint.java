@@ -1,4 +1,4 @@
-package game.core.blueprints;
+package com.core.blueprints;
 
 import java.util.Map;
 
