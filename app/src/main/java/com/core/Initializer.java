@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.entities.Tile;
-import com.nodes.Node;
+import com.nodes.RenderNode;
 import com.systems.RenderSystem;
 
 public class Initializer {
@@ -16,7 +16,7 @@ public class Initializer {
     }
 
     private void iniMap() {
-        Node render_node;
+        RenderNode render_node;
         int track_id = 1;
         while (track_id<=Settings.MAX_TILES) {
             Tile track_tile = engine.entity_creator.createTrackTile(track_id, 0, 0);
