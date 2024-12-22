@@ -22,9 +22,9 @@ public class Initializer {
             Tile track_tile = engine.entity_creator.createTrackTile(track_id, 0, 0);
             Tile octa_tile = engine.entity_creator.createOctaTile(track_id, 0, 0);
 
-            render_node = engine.node_creator.createRenderNode(track_tile.position);
+            render_node = engine.node_creator.createRenderNode(track_tile.position, track_tile.hidden_state);
             render_system.addNode(render_node);
-            render_node = engine.node_creator.createRenderNode(octa_tile.position);
+            render_node = engine.node_creator.createRenderNode(octa_tile.position, octa_tile.hidden_state);
             render_system.addNode(render_node);
 
             track_id++;

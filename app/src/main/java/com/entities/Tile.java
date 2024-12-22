@@ -1,15 +1,15 @@
 package com.entities;
 
 import com.components.Position;
-import com.components.TileChoosable;
+import com.components.HiddenState;
 
 public class Tile {
     public Position position;
-    public TileChoosable choosable;
+    public HiddenState hidden_state;
     // public img;
 
-    public Tile(Position position, TileChoosable choosable) {
+    public Tile(Position position, HiddenState hidden_state) {
         this.position = position;
-        this.choosable = choosable;
+        this.hidden_state = hidden_state;
     }
 }
