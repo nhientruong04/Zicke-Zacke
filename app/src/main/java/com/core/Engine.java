@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 import com.systems.ISystem;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
 public class Engine {
     public boolean isRunning;
 
     public EntityCreator entity_creator;
     public NodeCreator node_creator;
-
+    
+    private Initializer initializer;
     private ArrayList<ISystem> systems;
 
     public Engine() {
         this.systems = new ArrayList<ISystem>();
         this.entity_creator = new EntityCreator();
         this.node_creator = new NodeCreator();
+        this.initializer = new Initializer(this);
 
         this.isRunning = false;
     }
@@ -24,9 +31,11 @@ public class Engine {
         this.systems.add(system);
     }
 
-    private void initGame() {
-        Initializer initializer = new Initializer(this);
-        initializer.init();
+    public Scene createMap() {
+        GridPane map = this.initializer.initMap();
+        Scene firstScene = new Scene(map, Settings.WIDTH, Settings.HEIGHT);
+
+        return firstScene;
     }
 
     public void run() {
@@ -68,10 +77,5 @@ public class Engine {
         for (int i=0; i<this.systems.size(); i++) {
             this.systems.get(i).update();
         }
-    }
-
-    public void start() {
-        this.initGame();
-        this.run();
     }
 }

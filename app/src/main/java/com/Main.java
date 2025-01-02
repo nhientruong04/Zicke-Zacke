@@ -1,25 +1,26 @@
 package com;
 
-import java.util.Map;
-
-import com.components.*;
 import com.core.Engine;
-import com.core.EntityCreator;
-import com.core.NodeCreator;
-import com.core.blueprints.BlueprintRegistry;
-import com.entities.Feather;
-import com.entities.Tile;
-import com.nodes.RenderNode;
 
-import java.util.HashMap;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        Engine engine = new Engine();
+        Scene firstScene = engine.createMap();
+
+        primaryStage.setTitle("Draft Map");
+        primaryStage.setScene(firstScene);
+        primaryStage.show();
+
+        System.out.println("Check");   
+    }
+
     public static void main(String[] args) {
-        // Engine engine = new Engine();
-        // engine.start();
-
-        // System.out.println("Check");   
-        Test test = new Test();
-        test.run();   
+        launch(args);
     }
 }

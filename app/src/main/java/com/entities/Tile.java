@@ -1,15 +1,10 @@
 package com.entities;
 
-import com.components.Position;
 import com.components.HiddenState;
+import com.components.Position;
 
-public class Tile {
+public abstract class Tile {
     public Position position;
     public HiddenState hidden_state;
     // public img;
-
-    public Tile(Position position, HiddenState hidden_state) {
-        this.position = position;
-        this.hidden_state = hidden_state;
-    }
 }

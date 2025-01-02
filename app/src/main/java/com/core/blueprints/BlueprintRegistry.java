@@ -9,7 +9,8 @@ public class BlueprintRegistry {
 
     // Static initializer for registering blueprints
     static {
-        registerBlueprint("Tile", new TileBlueprint());
+        registerBlueprint("TrackTile", new TrackTileBlueprint());
+        registerBlueprint("OctaTile", new OctaTileBlueprint());
         registerBlueprint("Player", new PlayerBlueprint());
         registerBlueprint("Feather", new FeatherBlueprint());
     }
