@@ -12,3 +12,4 @@ plugins {
 
 rootProject.name = 'proj'
 include 'app'
+include 'gui'

@@ -3,6 +3,8 @@ package com.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,6 +33,12 @@ public class Draft extends Application {
             gridPane.add(button, i, 0); // Add button to row 0, column i
         }
 
+        Image chicken = new Image(getClass().getResource("/chicken/chickenpixel.png").toExternalForm());
+        ImageView entityImageView = new ImageView(chicken);
+
+        entityImageView.setFitWidth(50);
+        entityImageView.setFitHeight(50);
+        gridPane.add(entityImageView, 3, 1);
         // Center the grid pane within the scene
         gridPane.setStyle("-fx-alignment: center;"); // Center alignment
 
