@@ -78,10 +78,36 @@ public class LogicSystem extends ISystem {
                 this.disableButtons();
 
                 int chosenTileId = node.position.tile_id;
+                int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
+                int nextTileId = this.getNextTileId();
+                System.out.println("Next tile: " + nextTileId);
+                System.out.println("Chosen tile: " + chosenTileId);
 
-                // if (chosenTileId)
+                // if player chose correctly
+                if (chosenTileId==nextTileId) {
+                    // loop to get feathers
+                    int player_ind = 0;
+                    while (player_ind<Settings.PLAYERS) {
+                        // only consider players not in turn
+                        if (player_ind != this.turn_index) {
+                            // the tile id of the current player
+                            int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
+
+                            // current player in the way of the player in turn
+                            if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
+                                this.takeFeathers(this.player_nodes.get(player_ind));
+                            }
+                        }
+
+                        player_ind++;
+                    }
+
+                    // change position for MoveSystem to process
+                    this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
+                }
 
                 this.enableButtons();
+                break;
             }
         }
     }   
