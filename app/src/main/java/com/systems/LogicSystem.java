@@ -9,6 +9,7 @@ import com.nodes.TileNode;
 import javafx.scene.control.Button;
 
 import com.core.Settings;
+import com.entities.Feather;
 
 public class LogicSystem extends ISystem {
     private ArrayList<TileNode> tile_nodes;
@@ -33,17 +34,38 @@ public class LogicSystem extends ISystem {
         this.button_nodes.forEach(button_node -> button_node.button.setDisable(false));
     }
 
+    private void takeFeathers(PlayerNode p2) {
+        // give feather from p2 to p1
+        PlayerNode p1 = this.player_nodes.get(this.turn_index); // current player
+        
+        Feather feather;
+        while(!p2.feather_list.feathers.isEmpty()) {
+            feather = p2.feather_list.feathers.remove(0);
+            p2.feather_list.feathers.add(feather);        
+        }
+    }
+
     public int getNextTileId() {
         int playerTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-        int nextTileId = (playerTileId + 1) % Settings.MAX_TILES;
+        int nextTileId = (playerTileId + 1) % 24; // 24 track tiles
         
         ArrayList<PlayerNode> player_nodes_cloned = new ArrayList<PlayerNode>(this.player_nodes);
+        player_nodes_cloned.remove(this.turn_index); // remove current player
         player_nodes_cloned.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
         
-        for (int i=0; i<player_nodes_cloned.size(); i++) {
-            if (player_nodes_cloned.get(i).position.tile_id==nextTileId) {
+        int player_ind = 0;
+
+        while (player_ind<Settings.PLAYERS-1) {
+            if (player_nodes_cloned.get(player_ind).position.tile_id==nextTileId) {
                 nextTileId++;
             }
+
+            if (nextTileId%24==0) {
+                nextTileId = 0;
+                player_ind = -1;
+            }
+
+            player_ind++;
         }
 
         return nextTileId;

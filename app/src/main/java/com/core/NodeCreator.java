@@ -1,9 +1,11 @@
 package com.core;
 
+import com.components.FeatherList;
 import com.components.HiddenState;
 import com.components.Position;
 import com.components.TileSelectedState;
 import com.nodes.ButtonNode;
+import com.nodes.PlayerNode;
 import com.nodes.RenderNode;
 import com.nodes.TileNode;
 
@@ -20,5 +22,9 @@ public class NodeCreator {
 
     public ButtonNode createButtonNode(Button button) {
         return new ButtonNode(button);
+    }
+
+    public PlayerNode createPlayerNode(Position position, FeatherList feathers) {
+        return new PlayerNode(position, feathers);
     }
 }

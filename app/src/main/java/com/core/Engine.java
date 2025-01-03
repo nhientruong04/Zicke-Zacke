@@ -32,7 +32,7 @@ public class Engine {
     }
 
     public Scene createMap() {
-        GridPane map = this.initializer.initMap();
+        GridPane map = this.initializer.initGame();
         Scene firstScene = new Scene(map, Settings.WIDTH, Settings.HEIGHT);
 
         return firstScene;

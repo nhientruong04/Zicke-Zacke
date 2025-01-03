@@ -13,7 +13,7 @@ public class OctaTile extends Tile {
     public OctaTile(Position position) {
         this.position = position;
         this.hidden_state = new HiddenState();
-        this.selected = null;
+        this.selected = new TileSelectedState();
     }
 
     public void setButton(Button button) {
