@@ -12,7 +12,6 @@ public class BlueprintRegistry {
         registerBlueprint("TrackTile", new TrackTileBlueprint());
         registerBlueprint("OctaTile", new OctaTileBlueprint());
         registerBlueprint("Player", new PlayerBlueprint());
-        registerBlueprint("Feather", new FeatherBlueprint());
     }
 
     // Method to register a blueprint

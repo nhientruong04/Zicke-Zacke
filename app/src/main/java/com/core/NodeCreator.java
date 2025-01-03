@@ -8,6 +8,7 @@ import com.nodes.ButtonNode;
 import com.nodes.PlayerNode;
 import com.nodes.RenderNode;
 import com.nodes.TileNode;
+import com.nodes.TrackTileNode;
 
 import javafx.scene.control.Button;
 
@@ -26,5 +27,9 @@ public class NodeCreator {
 
     public PlayerNode createPlayerNode(Position position, FeatherList feathers) {
         return new PlayerNode(position, feathers);
+    }
+
+    public TrackTileNode createTrackTileNode(Position position) {
+        return new TrackTileNode(position);
     }
 }

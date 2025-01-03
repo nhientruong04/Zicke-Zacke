@@ -7,9 +7,6 @@ import com.gui.Draft;
 import com.nodes.RenderNode;
 
 public class Test {
-    public void change(RenderNode node) {
-        node.position.x += 1;
-    }
 
     public void run() {
         // NodeCreator node_creator = new NodeCreator();

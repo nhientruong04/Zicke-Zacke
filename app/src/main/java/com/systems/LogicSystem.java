@@ -24,6 +24,7 @@ public class LogicSystem extends ISystem {
         this.player_nodes = player_nodes;
 
         this.turn_index = 0;
+        this.player_nodes.get(0).setTurn(); // set turn to the first player
     }
 
     private void disableButtons() {
@@ -71,6 +72,15 @@ public class LogicSystem extends ISystem {
         return nextTileId;
     }
 
+    private void changeTurn() {
+        // remove current player turn
+        this.player_nodes.get(this.turn_index).removeTurn();
+
+        // get new turn index and set turn
+        this.turn_index = (this.turn_index + 1) % Settings.PLAYERS;
+        this.player_nodes.get(this.turn_index).setTurn();
+    }
+
     @Override
     public void update() {
         for (TileNode node: this.tile_nodes) {
@@ -105,6 +115,9 @@ public class LogicSystem extends ISystem {
                     // change position for MoveSystem to process
                     this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
                 }
+
+                // change turn after finishing the logic
+                this.changeTurn();
 
                 this.enableButtons();
                 break;
