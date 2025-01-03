@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 
+import com.components.FXObject;
 import com.entities.*;
 import com.nodes.*;
 import com.systems.*;
@@ -21,12 +22,13 @@ public class Initializer {
     private Engine engine;
     private RenderSystem render_system;
     private LogicSystem logic_system;
+    private MoveSystem move_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
     }
 
-    private void createMap(GridPane gridPane, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
+    private void createMap(GridPane gridPane, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list, ArrayList<TrackTileNode> trackTile_nodes_list) {
 
         // shuffle to create random order of tile indices
         List<Integer> tile_indices_list = new ArrayList<Integer>();
@@ -58,6 +60,8 @@ public class Initializer {
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, tileImgView);
+                FXObject fx_object = new FXObject(tileImgView);
+                trackTile_nodes_list.add(this.engine.node_creator.createTrackTileNode(track_tile.position, track_tile.fx_object));
                 
                 // add to map
                 gridPane.add(tileImgView, column, row);
@@ -122,7 +126,7 @@ public class Initializer {
         Random rand = new Random();
         Integer tile_id = rand.nextInt(24);
         
-        int space = 24 / num_player - 1;
+        int space = 24 / num_player;
 
         while (--num_player>=0) {
             // read image according to tile id
@@ -132,7 +136,8 @@ public class Initializer {
             chickenImgView.setFitHeight(80);
 
             Player player = this.engine.entity_creator.createPlayer(tile_id, chickenImgView);
-            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list);
+            FXObject fx_object = new FXObject(chickenImgView);
+            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, fx_object);
 
             // add to map
             gridPane.add(chickenImgView, 4, 4);
@@ -147,18 +152,21 @@ public class Initializer {
         ArrayList<TileNode> tile_nodes_list = new ArrayList<TileNode>();
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
+        ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10); // Horizontal gap between elements
         gridPane.setVgap(10); // Vertical gap between elements
 
-        this.createMap(gridPane, tile_nodes_list, button_nodes_list);
+        this.createMap(gridPane, tile_nodes_list, button_nodes_list, trackTile_nodes_list);
         this.addPlayers(gridPane, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list);
+        this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
+        this.engine.addSystem(this.move_system);
 
         gridPane.setStyle("-fx-alignment: center;");
         

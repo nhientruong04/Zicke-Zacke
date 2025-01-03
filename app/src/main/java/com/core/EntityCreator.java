@@ -1,5 +1,6 @@
 package com.core;
 
+import com.components.FXObject;
 import com.components.FeatherList;
 import com.components.Position;
 import com.core.blueprints.BlueprintRegistry;
@@ -15,7 +16,7 @@ public class EntityCreator {
     public TrackTile createTrackTile(int track_id, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
         Position position = new Position(track_id);
-        ImageView object = fx_object;
+        FXObject object = new FXObject(fx_object);
 
         params.put("position", position);
         params.put("fx_object", object);
@@ -38,7 +39,7 @@ public class EntityCreator {
 
         Position position = new Position(track_id);
         FeatherList feathers = new FeatherList(feather);
-        ImageView object = fx_object;
+        FXObject object = new FXObject(fx_object);
 
         params.put("position", position);
         params.put("feather_list", feathers);

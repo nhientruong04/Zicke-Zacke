@@ -1,15 +1,14 @@
 package com.entities;
 
+import com.components.FXObject;
 import com.components.Position;
 
-import javafx.scene.image.ImageView;
-
 public class TrackTile extends Tile {
-    public ImageView object;
+    public FXObject fx_object;
 
-    public TrackTile(Position position, ImageView fx_object) {
+    public TrackTile(Position position, FXObject fx_object) {
         this.position = position;
-        this.object = fx_object;
+        this.fx_object = fx_object;
         this.hidden_state = null;
     }
 }

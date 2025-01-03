@@ -65,7 +65,6 @@ public class Engine {
 				frames++;
 				delta--;
 				if(System.currentTimeMillis() - time >= 1000) {
-					System.out.println("fps:" + frames);
 					time += 1000;
 					frames = 0;
 				}

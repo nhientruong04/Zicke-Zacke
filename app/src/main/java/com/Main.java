@@ -17,7 +17,7 @@ public class Main extends Application {
         primaryStage.setScene(firstScene);
         primaryStage.show();
 
-        System.out.println("Check");   
+        engine.run();
     }
 
     public static void main(String[] args) {

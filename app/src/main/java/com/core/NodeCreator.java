@@ -1,14 +1,7 @@
 package com.core;
 
-import com.components.FeatherList;
-import com.components.HiddenState;
-import com.components.Position;
-import com.components.TileSelectedState;
-import com.nodes.ButtonNode;
-import com.nodes.PlayerNode;
-import com.nodes.RenderNode;
-import com.nodes.TileNode;
-import com.nodes.TrackTileNode;
+import com.components.*;
+import com.nodes.*;
 
 import javafx.scene.control.Button;
 
@@ -25,11 +18,11 @@ public class NodeCreator {
         return new ButtonNode(button);
     }
 
-    public PlayerNode createPlayerNode(Position position, FeatherList feathers) {
-        return new PlayerNode(position, feathers);
+    public PlayerNode createPlayerNode(Position position, FeatherList feathers, FXObject fx_object) {
+        return new PlayerNode(position, feathers, fx_object);
     }
 
-    public TrackTileNode createTrackTileNode(Position position) {
-        return new TrackTileNode(position);
+    public TrackTileNode createTrackTileNode(Position position, FXObject fx_object) {
+        return new TrackTileNode(position, fx_object);
     }
 }

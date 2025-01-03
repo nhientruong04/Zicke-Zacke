@@ -42,7 +42,7 @@ public class LogicSystem extends ISystem {
         Feather feather;
         while(!p2.feather_list.feathers.isEmpty()) {
             feather = p2.feather_list.feathers.remove(0);
-            p2.feather_list.feathers.add(feather);        
+            p1.feather_list.feathers.add(feather);        
         }
     }
 
@@ -84,8 +84,10 @@ public class LogicSystem extends ISystem {
     @Override
     public void update() {
         for (TileNode node: this.tile_nodes) {
-            if (node.selected != null) {
+            if (node.selected.is_selected) {
                 this.disableButtons();
+
+                node.selected.is_selected = false;
 
                 int chosenTileId = node.position.tile_id;
                 int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
