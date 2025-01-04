@@ -13,11 +13,13 @@ public class Main extends Application {
         Engine engine = new Engine();
         Scene firstScene = engine.createMap();
 
+        firstScene.getStylesheets().add(getClass().getResource("/button/main.css").toExternalForm());
+
+        engine.run();
+
         primaryStage.setTitle("Draft Map");
         primaryStage.setScene(firstScene);
         primaryStage.show();
-
-        engine.run();
     }
 
     public static void main(String[] args) {
