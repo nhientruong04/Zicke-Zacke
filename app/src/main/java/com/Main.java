@@ -14,7 +14,8 @@ public class Main extends Application {
         Scene firstScene = engine.createMap();
 
         firstScene.getStylesheets().add(getClass().getResource("/button/main.css").toExternalForm());
-
+        firstScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+        
         engine.run();
 
         primaryStage.setTitle("Draft Map");

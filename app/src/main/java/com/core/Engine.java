@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Engine {
@@ -34,8 +35,8 @@ public class Engine {
     }
 
     public Scene createMap() {
-        GridPane map = this.initializer.initGame();
-        Scene firstScene = new Scene(map, Settings.WIDTH, Settings.HEIGHT);
+        StackPane pane = this.initializer.initGame();
+        Scene firstScene = new Scene(pane, Settings.WIDTH, Settings.HEIGHT);
 
         return firstScene;
     }

@@ -17,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class Initializer {
     private Engine engine;
@@ -120,7 +122,7 @@ public class Initializer {
         }
     }
 
-    private void addPlayers(GridPane gridPane, ArrayList<PlayerNode> player_nodes_list) {
+    private void addPlayers(Pane move_layout, ArrayList<PlayerNode> player_nodes_list) {
         Integer num_player = Settings.PLAYERS;
 
         Random rand = new Random();
@@ -140,7 +142,7 @@ public class Initializer {
             PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, fx_object);
 
             // add to map
-            gridPane.add(chickenImgView, 4, 4);
+            move_layout.getChildren().add(chickenImgView);
 
             // add to node list and update next position
             player_nodes_list.add(player_node);
@@ -148,18 +150,23 @@ public class Initializer {
         }
     }
 
-    public GridPane initGame() {
+    public StackPane initGame() {
         ArrayList<TileNode> tile_nodes_list = new ArrayList<TileNode>();
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
 
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10); // Horizontal gap between elements
-        gridPane.setVgap(10); // Vertical gap between elements
+        GridPane map_layout = new GridPane();
+        map_layout.setHgap(10); // Horizontal gap between elements
+        map_layout.setVgap(10); // Vertical gap between elements
+        map_layout.getStyleClass().add("map_layout");
 
-        this.createMap(gridPane, tile_nodes_list, button_nodes_list, trackTile_nodes_list);
-        this.addPlayers(gridPane, player_nodes_list);
+        Pane move_layout = new Pane();
+        move_layout.setMouseTransparent(true); // Pass mouse events through
+        map_layout.getStyleClass().add("move_layout");
+
+        this.createMap(map_layout, tile_nodes_list, button_nodes_list, trackTile_nodes_list);
+        this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list);
@@ -168,8 +175,10 @@ public class Initializer {
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
 
-        gridPane.setStyle("-fx-alignment: center;");
+
+        StackPane root = new StackPane();
+        root.getChildren().addAll(map_layout, move_layout); // add according to order
         
-        return gridPane;
+        return root;
     }
 }
