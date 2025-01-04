@@ -218,7 +218,7 @@ public class Initializer {
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
-        this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        // this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
         // this.engine.addSystem(this.move_system);
