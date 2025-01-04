@@ -6,7 +6,9 @@ import com.nodes.ButtonNode;
 import com.nodes.PlayerNode;
 import com.nodes.TileNode;
 
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 
 import com.core.Settings;
 import com.entities.Feather;

@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 
 public class Initializer {
     private Engine engine;
@@ -62,17 +63,20 @@ public class Initializer {
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, tileImgView);
-                FXObject fx_object = new FXObject(tileImgView);
+
                 trackTile_nodes_list.add(this.engine.node_creator.createTrackTileNode(track_tile.position, track_tile.fx_object));
                 
                 // add to map
-                gridPane.add(tileImgView, column, row);
+                gridPane.add(track_tile.fx_object.object, column, row);
             }
 
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // sort for precise indexing in other systems
+        trackTile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
 
         // octa tiles
         List<Integer> octa_indices_list = new ArrayList<Integer>();
@@ -120,6 +124,9 @@ public class Initializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // sort for precise indexing in other systems
+        tile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
     }
 
     private void addPlayers(Pane move_layout, ArrayList<PlayerNode> player_nodes_list) {
@@ -150,7 +157,7 @@ public class Initializer {
         }
     }
 
-    public StackPane initGame() {
+    public void initGame(StackPane root) {
         ArrayList<TileNode> tile_nodes_list = new ArrayList<TileNode>();
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
@@ -175,10 +182,6 @@ public class Initializer {
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
 
-
-        StackPane root = new StackPane();
         root.getChildren().addAll(map_layout, move_layout); // add according to order
-        
-        return root;
     }
 }

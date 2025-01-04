@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import com.systems.ISystem;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class Engine {
     public boolean isRunning;
@@ -35,8 +32,10 @@ public class Engine {
     }
 
     public Scene createMap() {
-        StackPane pane = this.initializer.initGame();
-        Scene firstScene = new Scene(pane, Settings.WIDTH, Settings.HEIGHT);
+        StackPane root = new StackPane();
+        Scene firstScene = new Scene(root, Settings.WIDTH, Settings.HEIGHT);
+
+        this.initializer.initGame(root);
 
         return firstScene;
     }
