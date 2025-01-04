@@ -159,14 +159,14 @@ public class Initializer {
         gridPane.setVgap(10); // Vertical gap between elements
 
         this.createMap(gridPane, tile_nodes_list, button_nodes_list, trackTile_nodes_list);
-        this.addPlayers(gridPane, player_nodes_list);
+        // this.addPlayers(gridPane, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list);
-        this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        // this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
-        this.engine.addSystem(this.move_system);
+        // this.engine.addSystem(this.move_system);
 
         gridPane.setStyle("-fx-alignment: center;");
         
