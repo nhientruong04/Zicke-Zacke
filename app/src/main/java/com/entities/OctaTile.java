@@ -4,6 +4,8 @@ import com.components.HiddenState;
 import com.components.Position;
 import com.components.TileSelectedState;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 public class OctaTile extends Tile {
@@ -18,7 +20,8 @@ public class OctaTile extends Tile {
 
     public void setButton(Button button) {
         button.setOnAction(e -> {
-            this.selected = new TileSelectedState();
+            System.out.println("Button pressed");
+            this.selected.is_selected = true;
         });
 
         this.button = button;

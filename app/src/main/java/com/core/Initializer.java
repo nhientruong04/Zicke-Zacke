@@ -101,9 +101,9 @@ public class Initializer {
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(50);
                 tileImgView.setFitHeight(50);
-    
+
                 // create button for octagonal tiles
-                Button button = new Button("" + tile_id);
+                Button button = new Button("");
                 button.setGraphic(tileImgView); // set image for button
                 octa_tile.setButton(button); // assign button to entity
                 
@@ -111,7 +111,7 @@ public class Initializer {
                 button_nodes_list.add(engine.node_creator.createButtonNode(octa_tile.button));
 
                 // add to map
-                gridPane.add(tileImgView, column, row);
+                gridPane.add(octa_tile.button, column, row);
             }
 
             br.close();
