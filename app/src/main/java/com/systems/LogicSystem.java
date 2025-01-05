@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.nodes.ButtonNode;
 import com.nodes.PlayerNode;
+import com.nodes.TrackTileNode;
 import com.nodes.OctaTileNode;
 
 import com.core.Settings;
@@ -13,13 +14,15 @@ public class LogicSystem extends ISystem {
     private ArrayList<OctaTileNode> octaTile_nodes;
     private ArrayList<ButtonNode> button_nodes;
     private ArrayList<PlayerNode> player_nodes;
+    private ArrayList<TrackTileNode> trackTile_nodes;
 
     public int turn_index;
 
-    public LogicSystem(ArrayList<OctaTileNode> octaTile_nodes, ArrayList<ButtonNode> button_nodes, ArrayList<PlayerNode> player_nodes) {
+    public LogicSystem(ArrayList<OctaTileNode> octaTile_nodes, ArrayList<ButtonNode> button_nodes, ArrayList<PlayerNode> player_nodes, ArrayList<TrackTileNode> trackTile_nodes) {
         this.octaTile_nodes = octaTile_nodes;
         this.button_nodes = button_nodes;
         this.player_nodes = player_nodes;
+        this.trackTile_nodes = trackTile_nodes;
 
         this.turn_index = 0;
         // this.player_nodes.get(0).setTurn(); // set turn to the first player
@@ -81,49 +84,49 @@ public class LogicSystem extends ISystem {
 
     @Override
     public void update() {
-        for (OctaTileNode node: this.octaTile_nodes) {
-            if (node.selected.is_selected) {
-                this.disableButtons();
+        // for (OctaTileNode node: this.octaTile_nodes) {
+        //     if (node.selected.is_selected) {
+        //         this.disableButtons();
 
-                node.selected.is_selected = false;
+        //         node.selected.is_selected = false;
 
-                int chosenTileId = node.position.tile_id;
-                int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-                int nextTileId = this.getNextTileId();
+        //         int chosenTileId = node.position.tile_id;
+        //         int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
+        //         int nextTileId = this.getNextTileId();
 
-                System.out.println("Player: " + this.turn_index);
-                System.out.println("Next tile: " + nextTileId);
-                System.out.println("Chosen tile: " + chosenTileId);
+        //         System.out.println("Player: " + this.turn_index);
+        //         System.out.println("Next tile: " + nextTileId);
+        //         System.out.println("Chosen tile: " + chosenTileId);
 
-                // if player chose correctly
-                if (chosenTileId==nextTileId) {
-                    // loop to get feathers
-                    int player_ind = 0;
-                    while (player_ind<Settings.PLAYERS) {
-                        // only consider players not in turn
-                        if (player_ind != this.turn_index) {
-                            // the tile id of the current player
-                            int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
+        //         // if player chose correctly
+        //         if (chosenTileId==nextTileId) {
+        //             // loop to get feathers
+        //             int player_ind = 0;
+        //             while (player_ind<Settings.PLAYERS) {
+        //                 // only consider players not in turn
+        //                 if (player_ind != this.turn_index) {
+        //                     // the tile id of the current player
+        //                     int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
 
-                            // current player in the way of the player in turn
-                            if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
-                                this.takeFeathers(this.player_nodes.get(player_ind));
-                            }
-                        }
+        //                     // current player in the way of the player in turn
+        //                     if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
+        //                         this.takeFeathers(this.player_nodes.get(player_ind));
+        //                     }
+        //                 }
 
-                        player_ind++;
-                    }
+        //                 player_ind++;
+        //             }
 
-                    // change position for MoveSystem to process
-                    this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
-                }
+        //             // change position for MoveSystem to process
+        //             this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
+        //         }
 
-                // change turn after finishing the logic
-                this.changeTurn();
+        //         // change turn after finishing the logic
+        //         this.changeTurn();
 
-                this.enableButtons();
-                break;
-            }
-        }
+        //         this.enableButtons();
+        //         break;
+        //     }
+        // }
     }   
 }

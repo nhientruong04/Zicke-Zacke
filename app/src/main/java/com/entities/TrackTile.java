@@ -4,7 +4,7 @@ import com.components.FXObject;
 import com.components.Position;
 
 public class TrackTile extends Tile {
-    public FXObject fx_object;
+    public Position position;
 
     public TrackTile(Position position, FXObject fx_object) {
         this.position = position;

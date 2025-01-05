@@ -4,8 +4,10 @@ import javafx.scene.image.ImageView;
 
 public class FXObject extends Component {
     public ImageView object;
+    public int img_id;
 
-    public FXObject(ImageView object) {
+    public FXObject(int img_id, ImageView object) {
         this.object = object;
+        this.img_id = img_id;
     }
 }

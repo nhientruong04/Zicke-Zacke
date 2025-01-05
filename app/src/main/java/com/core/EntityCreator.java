@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 public class EntityCreator {
 
-    public TrackTile createTrackTile(int track_id, ImageView fx_object) {
+    public TrackTile createTrackTile(int track_id, int img_id, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
         Position position = new Position(track_id);
-        FXObject object = new FXObject(fx_object);
+        FXObject object = new FXObject(img_id, fx_object);
 
         params.put("position", position);
         params.put("fx_object", object);
@@ -24,24 +24,22 @@ public class EntityCreator {
         return BlueprintRegistry.create("TrackTile", params);
     }
 
-    public OctaTile createOctaTile(int track_id, ImageView fx_object) {
+    public OctaTile createOctaTile(int img_id, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
-        Position position = new Position(track_id);
-        FXObject object = new FXObject(fx_object);
+        FXObject object = new FXObject(img_id, fx_object);
 
-        params.put("position", position);
         params.put("fx_object", object);
 
         return BlueprintRegistry.create("OctaTile", params);
     }
 
-    public Player createPlayer(int track_id, ImageView fx_object) {
+    public Player createPlayer(int track_id, int img_id, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
         Feather feather = new Feather();
 
         Position position = new Position(track_id);
         FeatherList feathers = new FeatherList(feather);
-        FXObject object = new FXObject(fx_object);
+        FXObject object = new FXObject(img_id, fx_object);
 
         params.put("position", position);
         params.put("feather_list", feathers);

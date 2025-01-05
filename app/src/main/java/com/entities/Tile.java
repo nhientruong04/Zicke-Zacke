@@ -1,9 +1,9 @@
 package com.entities;
 
+import com.components.FXObject;
 import com.components.HiddenState;
-import com.components.Position;
 
 public abstract class Tile {
-    public Position position;
+    public FXObject fx_object;
     public HiddenState hidden_state;
 }
