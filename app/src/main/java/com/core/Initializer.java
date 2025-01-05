@@ -172,9 +172,10 @@ public class Initializer {
         
         int space = 24 / num_player;
 
-        while (--num_player>=0) {
+
+        for (int i=0; i<num_player; i++) {
             // read image according to tile id
-            Image chickenImg = new Image(getClass().getResource("/chicken/chicken_" + num_player + "/1.png").toExternalForm());
+            Image chickenImg = new Image(getClass().getResource("/chicken/chicken_" + i + "/1.png").toExternalForm());
             ImageView chickenImgView = new ImageView(chickenImg);
             chickenImgView.setFitWidth(Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE);
             chickenImgView.setFitHeight(Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE);
