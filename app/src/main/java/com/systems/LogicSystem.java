@@ -73,6 +73,25 @@ public class LogicSystem extends ISystem {
         return nextTileId;
     }
 
+    private void printCurrentPlayerState(int chosenImgId, int oldTileId, int nextTileId, int nextImgId) {
+        System.out.println("Player: " + this.player_nodes.get(this.turn_index).fx_object.img_id);
+        System.out.println("Feathers: " + this.player_nodes.get(this.turn_index).feather_list.feathers.size());
+        System.out.println("Current tile: " + oldTileId);
+        System.out.println("Next tile: " + nextTileId);
+        System.out.println("Next ImgId: " + nextImgId);
+        System.out.println("Chosen ImgId: " + chosenImgId);
+    }
+
+    private void printAllPlayerState() {
+        System.out.println("-------------------------");
+        for (int i=0; i<this.player_nodes.size(); i++) {
+            System.out.println("Player: " + i);
+            System.out.println("Feathers: " + this.player_nodes.get(i).feather_list.feathers.size() + ", position " + this.player_nodes.get(i).position.tile_id);
+            System.out.println();
+        }
+        System.out.println("-------------------------");
+    }
+
     private void changeTurn() {
         // remove current player turn
         this.player_nodes.get(this.turn_index).removeTurn();
@@ -95,9 +114,7 @@ public class LogicSystem extends ISystem {
                 int nextTileId = this.getNextTileId();
                 int nextImgId = this.trackTile_nodes.get(nextTileId).fx_object.img_id;
 
-                System.out.println("Player: " + this.player_nodes.get(this.turn_index).fx_object.img_id);
-                System.out.println("Next tile: " + nextImgId);
-                System.out.println("Chosen tile: " + chosenImgId);
+                printCurrentPlayerState(chosenImgId, oldTileId, nextTileId, nextImgId);
 
                 // if player chose correctly
                 if (chosenImgId==nextImgId) {
@@ -120,10 +137,12 @@ public class LogicSystem extends ISystem {
 
                     // change position for MoveSystem to process
                     this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
+
+                    this.printAllPlayerState();
                 }
 
                 // change turn after finishing the logic
-                this.changeTurn();
+                // this.changeTurn();
 
                 this.enableButtons();
                 break;
