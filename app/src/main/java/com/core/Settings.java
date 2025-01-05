@@ -7,6 +7,8 @@ public class Settings {
     public static int HEIGHT;
     public static int PLAYERS;
     public static double STAND_PADDING;
+    public static double TILE_WIDTH_BASE;
+    public static double TILE_HEIGHT_BASE;
 
     static {
         MAX_TILES = 12;
@@ -15,5 +17,7 @@ public class Settings {
         HEIGHT = 700;
         PLAYERS = 4;
         STAND_PADDING = 12.0f;
+        TILE_HEIGHT_BASE = 25;
+        TILE_WIDTH_BASE = 21;
     }
 }

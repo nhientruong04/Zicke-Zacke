@@ -31,7 +31,8 @@ public class Initializer {
         this.engine = engine;
     }
 
-    private void createMap(GridPane gridPane, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list, ArrayList<TrackTileNode> trackTile_nodes_list) {
+    private void createMap(Pane map_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
+        BufferedReader br;
 
         // shuffle to create random order of tile indices
         List<Integer> tile_indices_list = new ArrayList<Integer>();
@@ -41,7 +42,16 @@ public class Initializer {
 
         Collections.shuffle(tile_indices_list);
 
-        BufferedReader br;
+        // Load and arrange 24 tiles at the center of the map
+        int tileRows = 8;
+        int tileColumns = 8;
+        double tileSize = 55; // Example size for each tile
+        double mapWidth = 1000; // Match the background width
+        double mapHeight = 700; // Match the background height
+
+        double startX = (mapWidth - (tileColumns * tileSize)) / 2;
+        double startY = (mapHeight - (tileRows * tileSize)) / 2;
+
         try {
             br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/track_map.txt")));
             String[] pos;
@@ -58,8 +68,12 @@ public class Initializer {
                 // read image according to tile id
                 Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(50);
-                tileImgView.setFitHeight(50);
+                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * 2);
+                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * 2);
+
+                // Position the tile
+                tileImgView.setLayoutX(startX + column * tileSize);
+                tileImgView.setLayoutY(startY + row * tileSize);
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, tileImgView);
@@ -67,7 +81,7 @@ public class Initializer {
                 trackTile_nodes_list.add(this.engine.node_creator.createTrackTileNode(track_tile.position, track_tile.fx_object));
                 
                 // add to map
-                gridPane.add(track_tile.fx_object.object, column, row);
+                map_layout.getChildren().add(track_tile.fx_object.object);
             }
 
             br.close();
@@ -77,6 +91,10 @@ public class Initializer {
 
         // sort for precise indexing in other systems
         trackTile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
+    }
+
+    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
+        BufferedReader br;
 
         // octa tiles
         List<Integer> octa_indices_list = new ArrayList<Integer>();
@@ -105,8 +123,8 @@ public class Initializer {
                 // read image according to tile id
                 Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(50);
-                tileImgView.setFitHeight(50);
+                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * 2);
+                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * 2);
 
                 // create button for octagonal tiles
                 Button button = new Button("");
@@ -117,7 +135,7 @@ public class Initializer {
                 button_nodes_list.add(engine.node_creator.createButtonNode(octa_tile.button));
 
                 // add to map
-                gridPane.add(octa_tile.button, column, row);
+                octaTiles_layout.add(octa_tile.button, column, row);
             }
 
             br.close();
@@ -163,16 +181,22 @@ public class Initializer {
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
 
-        GridPane map_layout = new GridPane();
-        map_layout.setHgap(10); // Horizontal gap between elements
-        map_layout.setVgap(10); // Vertical gap between elements
-        map_layout.getStyleClass().add("map_layout");
+        Pane map_layout = new Pane();
+        // Bind the Pane's size to the StackPane's size
+        map_layout.prefWidthProperty().bind(root.widthProperty());
+        map_layout.prefHeightProperty().bind(root.heightProperty());
+
+        GridPane octaTiles_layout = new GridPane();
+        octaTiles_layout.setHgap(10); // Horizontal gap between elements
+        octaTiles_layout.setVgap(10); // Vertical gap between elements
+        octaTiles_layout.getStyleClass().add("octaTiles_layout");
 
         Pane move_layout = new Pane();
         move_layout.setMouseTransparent(true); // Pass mouse events through
-        map_layout.getStyleClass().add("move_layout");
+        move_layout.getStyleClass().add("move_layout");
 
-        this.createMap(map_layout, tile_nodes_list, button_nodes_list, trackTile_nodes_list);
+        this.createMap(map_layout, trackTile_nodes_list);
+        this.createOctagonalTilesLayout(octaTiles_layout, tile_nodes_list, button_nodes_list);
         this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
@@ -180,8 +204,8 @@ public class Initializer {
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
-        this.engine.addSystem(this.move_system);
+        // this.engine.addSystem(this.move_system);
 
-        root.getChildren().addAll(map_layout, move_layout); // add according to order
+        root.getChildren().addAll(map_layout, octaTiles_layout, move_layout); // add according to order
     }
 }
