@@ -24,11 +24,13 @@ public class EntityCreator {
         return BlueprintRegistry.create("TrackTile", params);
     }
 
-    public OctaTile createOctaTile(int track_id) {
+    public OctaTile createOctaTile(int track_id, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
         Position position = new Position(track_id);
+        FXObject object = new FXObject(fx_object);
 
         params.put("position", position);
+        params.put("fx_object", object);
 
         return BlueprintRegistry.create("OctaTile", params);
     }

@@ -117,9 +117,6 @@ public class Initializer {
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // instantiate octagonal tile entity
-                OctaTile octa_tile = engine.entity_creator.createOctaTile(tile_id);
-
                 // read image according to tile id
                 Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
@@ -129,7 +126,11 @@ public class Initializer {
                 // create button for octagonal tiles
                 Button button = new Button("");
                 button.setGraphic(tileImgView); // set image for button
-                octa_tile.setButton(button); // assign button to entity
+
+                // instantiate octagonal tile entity
+                OctaTile octa_tile = engine.entity_creator.createOctaTile(tile_id, tileImgView);
+                // assign button to entity
+                octa_tile.setButton(button);
                 
                 tile_nodes_list.add(engine.node_creator.createTileNode(octa_tile.position, octa_tile.selected));
                 button_nodes_list.add(engine.node_creator.createButtonNode(octa_tile.button));
@@ -202,7 +203,7 @@ public class Initializer {
         this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
-        this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list);
+        this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
