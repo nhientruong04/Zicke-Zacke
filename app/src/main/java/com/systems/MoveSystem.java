@@ -31,12 +31,8 @@ public class MoveSystem extends ISystem {
             ImageView trackTileView = this.trackTile_nodes.get(dest_tileId).fx_object.object;
             System.out.println("Tile id: " + dest_tileId + ", object " + trackTileView);
 
-            Bounds targetBounds = trackTileView.localToScene(trackTileView.getBoundsInParent());
-
-            System.out.println(targetBounds.getMinX() + " " + targetBounds.getMinY());
-
-            player_node.fx_object.object.setLayoutX(targetBounds.getMinX());
-            player_node.fx_object.object.setLayoutY(targetBounds.getMinY());
+            player_node.fx_object.object.setLayoutX(trackTileView.getLayoutX() - Settings.CHICKEN_PADDING_X);
+            player_node.fx_object.object.setLayoutY(trackTileView.getLayoutY() - Settings.CHICKEN_PADDING_Y);
         }
     }
 

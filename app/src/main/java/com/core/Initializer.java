@@ -45,7 +45,7 @@ public class Initializer {
         // Load and arrange 24 tiles at the center of the map
         int tileRows = 8;
         int tileColumns = 8;
-        double tileSize = 55; // Example size for each tile
+        double tileSize = (Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5; // Example size for each tile
         double mapWidth = 1000; // Match the background width
         double mapHeight = 700; // Match the background height
 
@@ -68,8 +68,8 @@ public class Initializer {
                 // read image according to tile id
                 Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * 2);
-                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * 2);
+                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
+                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
 
                 // Position the tile
                 tileImgView.setLayoutX(startX + column * tileSize);
@@ -123,8 +123,8 @@ public class Initializer {
                 // read image according to tile id
                 Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * 2);
-                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * 2);
+                tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
+                tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
 
                 // create button for octagonal tiles
                 Button button = new Button("");
@@ -159,8 +159,8 @@ public class Initializer {
             // read image according to tile id
             Image chickenImg = new Image(getClass().getResource("/chicken/chicken_" + num_player + "/1.png").toExternalForm());
             ImageView chickenImgView = new ImageView(chickenImg);
-            chickenImgView.setFitWidth(100);
-            chickenImgView.setFitHeight(80);
+            chickenImgView.setFitWidth(Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE);
+            chickenImgView.setFitHeight(Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE);
 
             Player player = this.engine.entity_creator.createPlayer(tile_id, chickenImgView);
             FXObject fx_object = new FXObject(chickenImgView);
