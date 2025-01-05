@@ -148,6 +148,8 @@ public class Initializer {
     }
 
     private void addPlayers(Pane move_layout, ArrayList<PlayerNode> player_nodes_list) {
+        // TODO: bullshit player randomization
+
         Integer num_player = Settings.PLAYERS;
 
         Random rand = new Random();
