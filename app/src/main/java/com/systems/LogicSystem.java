@@ -4,24 +4,20 @@ import java.util.ArrayList;
 
 import com.nodes.ButtonNode;
 import com.nodes.PlayerNode;
-import com.nodes.TileNode;
-
-import javafx.geometry.Bounds;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import com.nodes.OctaTileNode;
 
 import com.core.Settings;
 import com.entities.Feather;
 
 public class LogicSystem extends ISystem {
-    private ArrayList<TileNode> tile_nodes;
+    private ArrayList<OctaTileNode> octaTile_nodes;
     private ArrayList<ButtonNode> button_nodes;
     private ArrayList<PlayerNode> player_nodes;
 
     public int turn_index;
 
-    public LogicSystem(ArrayList<TileNode> tile_nodes, ArrayList<ButtonNode> button_nodes, ArrayList<PlayerNode> player_nodes) {
-        this.tile_nodes = tile_nodes;
+    public LogicSystem(ArrayList<OctaTileNode> octaTile_nodes, ArrayList<ButtonNode> button_nodes, ArrayList<PlayerNode> player_nodes) {
+        this.octaTile_nodes = octaTile_nodes;
         this.button_nodes = button_nodes;
         this.player_nodes = player_nodes;
 
@@ -85,7 +81,7 @@ public class LogicSystem extends ISystem {
 
     @Override
     public void update() {
-        for (TileNode node: this.tile_nodes) {
+        for (OctaTileNode node: this.octaTile_nodes) {
             if (node.selected.is_selected) {
                 this.disableButtons();
 
@@ -94,6 +90,8 @@ public class LogicSystem extends ISystem {
                 int chosenTileId = node.position.tile_id;
                 int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
                 int nextTileId = this.getNextTileId();
+
+                System.out.println("Player: " + this.turn_index);
                 System.out.println("Next tile: " + nextTileId);
                 System.out.println("Chosen tile: " + chosenTileId);
 

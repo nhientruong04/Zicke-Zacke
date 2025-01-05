@@ -4,8 +4,6 @@ import com.components.HiddenState;
 import com.components.Position;
 import com.components.TileSelectedState;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 public class OctaTile extends Tile {

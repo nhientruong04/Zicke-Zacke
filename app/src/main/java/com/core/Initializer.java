@@ -93,7 +93,7 @@ public class Initializer {
         trackTile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
     }
 
-    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
+    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<OctaTileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
         BufferedReader br;
 
         // octa tiles
@@ -178,7 +178,7 @@ public class Initializer {
     }
 
     public void initGame(StackPane root) {
-        ArrayList<TileNode> tile_nodes_list = new ArrayList<TileNode>();
+        ArrayList<OctaTileNode> tile_nodes_list = new ArrayList<OctaTileNode>();
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
