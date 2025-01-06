@@ -172,7 +172,6 @@ public class Initializer {
         
         int space = 24 / num_player;
 
-
         for (int i=0; i<num_player; i++) {
             // read image according to tile id
             Image chickenImg = new Image(getClass().getResource("/chicken/chicken_" + i + "/1.png").toExternalForm());
@@ -180,7 +179,7 @@ public class Initializer {
             chickenImgView.setFitWidth(Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE);
             chickenImgView.setFitHeight(Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE);
 
-            Player player = this.engine.entity_creator.createPlayer(tile_id, num_player, chickenImgView);
+            Player player = this.engine.entity_creator.createPlayer(tile_id, i, chickenImgView);
             FXObject fx_object = new FXObject(num_player, chickenImgView);
             PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, fx_object);
 
