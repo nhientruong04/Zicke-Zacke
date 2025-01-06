@@ -49,7 +49,7 @@ public class LogicSystem extends ISystem {
 
     public int getNextTileId() {
         int playerTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-        int nextTileId = (playerTileId + 1) % 24; // 24 track tiles
+        int nextTileId = playerTileId + 1;
         
         ArrayList<PlayerNode> player_nodes_cloned = new ArrayList<PlayerNode>(this.player_nodes);
         player_nodes_cloned.remove(this.turn_index); // remove current player
@@ -58,22 +58,23 @@ public class LogicSystem extends ISystem {
         int player_ind = 0;
 
         while (player_ind<Settings.PLAYERS-1) {
-            if (player_nodes_cloned.get(player_ind).position.tile_id==nextTileId) {
+            if (player_nodes_cloned.get(player_ind).position.tile_id==(nextTileId%24)) {
                 nextTileId++;
-            }
-
-            if (nextTileId%24==0) {
-                nextTileId = 0;
                 player_ind = -1;
             }
 
             player_ind++;
         }
 
-        return nextTileId;
+        return (nextTileId%24);
     }
 
-    private void printCurrentPlayerState(int chosenImgId, int oldTileId, int nextTileId, int nextImgId) {
+    private void printCurrentPlayerState(int chosenImgId) {
+        int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
+        int nextTileId = this.getNextTileId();
+        int nextImgId = this.trackTile_nodes.get(nextTileId).fx_object.img_id;
+
+        System.out.println("-------------------------");
         System.out.println("Player: " + this.player_nodes.get(this.turn_index).fx_object.img_id);
         System.out.println("Feathers: " + this.player_nodes.get(this.turn_index).feather_list.feathers.size());
         System.out.println("Current tile: " + oldTileId);
@@ -85,11 +86,8 @@ public class LogicSystem extends ISystem {
     private void printAllPlayerState() {
         System.out.println("-------------------------");
         for (int i=0; i<this.player_nodes.size(); i++) {
-            System.out.println("Player: " + i);
-            System.out.println("Feathers: " + this.player_nodes.get(i).feather_list.feathers.size() + ", position " + this.player_nodes.get(i).position.tile_id);
-            System.out.println();
+            System.out.println("Player: " + i + ". Feathers: " + this.player_nodes.get(i).feather_list.feathers.size() + ", position " + this.player_nodes.get(i).position.tile_id);
         }
-        System.out.println("-------------------------");
     }
 
     private void changeTurn() {
@@ -114,7 +112,7 @@ public class LogicSystem extends ISystem {
                 int nextTileId = this.getNextTileId();
                 int nextImgId = this.trackTile_nodes.get(nextTileId).fx_object.img_id;
 
-                printCurrentPlayerState(chosenImgId, oldTileId, nextTileId, nextImgId);
+                printCurrentPlayerState(chosenImgId);
 
                 // if player chose correctly
                 if (chosenImgId==nextImgId) {
@@ -135,6 +133,7 @@ public class LogicSystem extends ISystem {
                         player_ind++;
                     }
 
+                    this.printCurrentPlayerState(chosenImgId);
                     // change position for MoveSystem to process
                     this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
 

@@ -221,7 +221,7 @@ public class Initializer {
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
-        // this.engine.addSystem(this.move_system);
+        this.engine.addSystem(this.move_system);
 
         root.getChildren().addAll(map_layout, octaTiles_layout, move_layout); // add according to order
     }

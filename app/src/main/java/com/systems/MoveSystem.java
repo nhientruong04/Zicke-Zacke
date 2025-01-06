@@ -44,31 +44,34 @@ public class MoveSystem extends ISystem {
 
             ImageView trackTileView = this.trackTile_nodes.get(dest_tileId).fx_object.object;
 
-            double targetX = trackTileView.getLayoutX();
+            double targetX = trackTileView.getLayoutX() - Settings.CHICKEN_PADDING_X;
             double startX = player_node.fx_object.object.getLayoutX();
+            double targetY = trackTileView.getLayoutY() - Settings.CHICKEN_PADDING_Y;
+            double startY = player_node.fx_object.object.getLayoutY();
+
             // TODO: incorrect condition
-            if (startX!=targetX) {
-                double targetY = trackTileView.getLayoutY() - Settings.STAND_PADDING;
-                double startY = player_node.fx_object.object.getLayoutY();
+            if (startX!=targetX | startY!=targetY) {
+                // QuadCurve curve = new QuadCurve(
+                // startX, startY, // Start point
+                // (startX+targetX)/2, (startY+targetY)/2, // Control point (curve peak)
+                // targetX, targetY // End point
+                // );
+                // // curve.setStroke(Color.BLUE);
+                // // curve.setFill(Color.BLACK);
 
-                QuadCurve curve = new QuadCurve(
-                startX, startY, // Start point
-                (startX+targetX)/2, (startY+targetY)/2, // Control point (curve peak)
-                targetX, targetY // End point
-                );
-                // curve.setStroke(Color.BLUE);
-                // curve.setFill(Color.BLACK);
-
-                // Create a PathTransition
-                PathTransition pathTransition = new PathTransition();
-                pathTransition.setNode(player_node.fx_object.object);
-                pathTransition.setPath(curve);
-                pathTransition.setDuration(Duration.seconds(1)); // Duration: 1 second
-                pathTransition.setCycleCount(1); // Play once
-                pathTransition.setAutoReverse(false); // No reverse motion
+                // // Create a PathTransition
+                // PathTransition pathTransition = new PathTransition();
+                // pathTransition.setNode(player_node.fx_object.object);
+                // pathTransition.setPath(curve);
+                // pathTransition.setDuration(Duration.seconds(1)); // Duration: 1 second
+                // pathTransition.setCycleCount(1); // Play once
+                // pathTransition.setAutoReverse(false); // No reverse motion
                 
-                // Start the animation
-                pathTransition.play();
+                // // Start the animation
+                // pathTransition.play();
+
+                player_node.fx_object.object.setLayoutX(targetX);
+                player_node.fx_object.object.setLayoutY(targetY);
             }
         }
     }
