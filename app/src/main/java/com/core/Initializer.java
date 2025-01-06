@@ -35,12 +35,12 @@ public class Initializer {
         BufferedReader br;
 
         // shuffle to create random order of tile indices
-        List<Integer> tile_indices_list = new ArrayList<Integer>();
+        List<Integer> img_indices_list = new ArrayList<Integer>();
         for(int i=0; i<24; i++) {
-            tile_indices_list.add(i);
+            img_indices_list.add(i%12);
         }
 
-        Collections.shuffle(tile_indices_list);
+        Collections.shuffle(img_indices_list);
 
         // Load and arrange 24 tiles at the center of the map
         int tileRows = 8;
@@ -59,14 +59,16 @@ public class Initializer {
 
             System.out.println("Creating track tiles");
 
-            for (Integer tile_id: tile_indices_list) {
+            for (int tile_id=0; tile_id<img_indices_list.size(); tile_id++) {
+                int img_id = img_indices_list.get(tile_id);
+
                 // read position
                 pos = br.readLine().split(" ");
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                // read image according to img_id at that index tile_id
+                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -76,7 +78,7 @@ public class Initializer {
                 tileImgView.setLayoutY(startY + row * tileSize);
 
                 // instantiate track tile entity
-                TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, tileImgView);
+                TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, img_id, tileImgView);
 
                 trackTile_nodes_list.add(this.engine.node_creator.createTrackTileNode(track_tile.position, track_tile.fx_object));
                 
@@ -88,12 +90,9 @@ public class Initializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // sort for precise indexing in other systems
-        trackTile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
     }
 
-    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<TileNode> tile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
+    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<OctaTileNode> octaTile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
         BufferedReader br;
 
         // octa tiles
@@ -111,17 +110,14 @@ public class Initializer {
 
             System.out.println("Creating octagonal tiles");
 
-            for (Integer tile_id: octa_indices_list) {
+            for (Integer img_id: octa_indices_list) {
                 // read position
                 pos = br.readLine().split(" ");
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // instantiate octagonal tile entity
-                OctaTile octa_tile = engine.entity_creator.createOctaTile(tile_id);
-
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + tile_id + ".png").toExternalForm());
+                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -129,13 +125,32 @@ public class Initializer {
                 // create button for octagonal tiles
                 Button button = new Button("");
                 button.setGraphic(tileImgView); // set image for button
-                octa_tile.setButton(button); // assign button to entity
+
+                // instantiate octagonal tile entity
+                OctaTile octa_tile = engine.entity_creator.createOctaTile(img_id, tileImgView);
+                // assign button to entity
+                octa_tile.setButton(button);
                 
-                tile_nodes_list.add(engine.node_creator.createTileNode(octa_tile.position, octa_tile.selected));
-                button_nodes_list.add(engine.node_creator.createButtonNode(octa_tile.button));
+                octaTile_nodes_list.add(
+                    engine
+                    .node_creator
+                    .createOctaTileNode(
+                        octa_tile.fx_object, 
+                        octa_tile.selected)
+                );
+
+                button_nodes_list.add(
+                    engine
+                    .node_creator
+                    .createButtonNode(octa_tile.button)
+                );
 
                 // add to map
-                octaTiles_layout.add(octa_tile.button, column, row);
+                octaTiles_layout.add(
+                    octa_tile.button,
+                    column,
+                    row
+                );
             }
 
             br.close();
@@ -144,10 +159,12 @@ public class Initializer {
         }
 
         // sort for precise indexing in other systems
-        tile_nodes_list.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
+        octaTile_nodes_list.sort((o1, o2) -> ((Integer) o1.fx_object.img_id).compareTo(o2.fx_object.img_id));
     }
 
     private void addPlayers(Pane move_layout, ArrayList<PlayerNode> player_nodes_list) {
+        // TODO: bullshit player randomization
+
         Integer num_player = Settings.PLAYERS;
 
         Random rand = new Random();
@@ -162,8 +179,8 @@ public class Initializer {
             chickenImgView.setFitWidth(Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE);
             chickenImgView.setFitHeight(Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE);
 
-            Player player = this.engine.entity_creator.createPlayer(tile_id, chickenImgView);
-            FXObject fx_object = new FXObject(chickenImgView);
+            Player player = this.engine.entity_creator.createPlayer(tile_id, num_player, chickenImgView);
+            FXObject fx_object = new FXObject(num_player, chickenImgView);
             PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, fx_object);
 
             // add to map
@@ -176,7 +193,7 @@ public class Initializer {
     }
 
     public void initGame(StackPane root) {
-        ArrayList<TileNode> tile_nodes_list = new ArrayList<TileNode>();
+        ArrayList<OctaTileNode> octaTile_nodes_list = new ArrayList<OctaTileNode>();
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
@@ -196,11 +213,11 @@ public class Initializer {
         move_layout.getStyleClass().add("move_layout");
 
         this.createMap(map_layout, trackTile_nodes_list);
-        this.createOctagonalTilesLayout(octaTiles_layout, tile_nodes_list, button_nodes_list);
+        this.createOctagonalTilesLayout(octaTiles_layout, octaTile_nodes_list, button_nodes_list);
         this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
-        this.logic_system = new LogicSystem(tile_nodes_list, button_nodes_list, player_nodes_list);
+        this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
