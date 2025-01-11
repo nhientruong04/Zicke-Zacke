@@ -26,7 +26,6 @@ public class LogicSystem extends ISystem {
 
         this.turn_index = 0;
         // this.player_nodes.get(0).setTurn(); // set turn to the first player
-        // this.player_nodes.get(0).setTurn(); // set turn to the first player
     }
 
     private void disableButtons() {
