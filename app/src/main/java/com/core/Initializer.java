@@ -92,7 +92,7 @@ public class Initializer {
         }
     }
 
-    private void createOctagonalTilesLayout (GridPane octaTiles_layout, ArrayList<OctaTileNode> octaTile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
+    private void createOctagonalTilesLayout(GridPane octaTiles_top_layout, GridPane octaTiles_under_layout, ArrayList<OctaTileNode> octaTile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
         BufferedReader br;
 
         // octa tiles
@@ -116,18 +116,24 @@ public class Initializer {
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/octa_tiles/" + img_id + ".png").toExternalForm());
-                ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(Settings.OCTATILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
-                tileImgView.setFitHeight(Settings.OCTATILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
+                // image corresponds to id for top tile
+                Image topTile_img = new Image(getClass().getResource("/octa_tiles/backside.png").toExternalForm());
+                ImageView topTileImgView = new ImageView(topTile_img);
+                topTileImgView.setFitWidth(Settings.OCTATILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
+                topTileImgView.setFitHeight(Settings.OCTATILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
 
-                // create button for octagonal tiles
+                // image corresponds to id for under tile
+                Image underTile_img = new Image(getClass().getResource("/octa_tiles/" + img_id + ".png").toExternalForm());
+                ImageView underTileImgView = new ImageView(underTile_img);
+                underTileImgView.setFitWidth(Settings.OCTATILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
+                underTileImgView.setFitHeight(Settings.OCTATILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
+
+                // create button for top tiles
                 Button button = new Button("");
-                button.setGraphic(tileImgView); // set image for button
+                button.setGraphic(topTileImgView); // set top image for button
 
                 // instantiate octagonal tile entity
-                OctaTile octa_tile = engine.entity_creator.createOctaTile(img_id, tileImgView);
+                OctaTile octa_tile = engine.entity_creator.createOctaTile(img_id, topTileImgView);
                 // assign button to entity
                 octa_tile.setButton(button);
                 
@@ -145,8 +151,15 @@ public class Initializer {
                     .createButtonNode(octa_tile.button)
                 );
 
-                // add to map
-                octaTiles_layout.add(
+                 // add under layer to map
+                 octaTiles_under_layout.add(
+                    underTileImgView,
+                    column,
+                    row
+                );
+
+                // add top layer to map
+                octaTiles_top_layout.add(
                     octa_tile.button,
                     column,
                     row
@@ -203,17 +216,22 @@ public class Initializer {
         trackTiles_layout.prefWidthProperty().bind(root.widthProperty());
         trackTiles_layout.prefHeightProperty().bind(root.heightProperty());
 
-        GridPane octaTiles_layout = new GridPane();
-        octaTiles_layout.setHgap(10); // Horizontal gap between elements
-        octaTiles_layout.setVgap(10); // Vertical gap between elements
-        octaTiles_layout.getStyleClass().add("octaTiles_layout");
+        GridPane octaTiles_top_layout = new GridPane();
+        octaTiles_top_layout.setHgap(10); // Horizontal gap between elements
+        octaTiles_top_layout.setVgap(10); // Vertical gap between elements
+        octaTiles_top_layout.getStyleClass().add("octaTiles_layout");
+
+        GridPane octaTiles_under_layout = new GridPane();
+        octaTiles_under_layout.setHgap(10); // Horizontal gap between elements
+        octaTiles_under_layout.setVgap(10); // Vertical gap between elements
+        octaTiles_under_layout.getStyleClass().add("octaTiles_layout");
 
         Pane move_layout = new Pane();
         move_layout.setMouseTransparent(true); // Pass mouse events through
         move_layout.getStyleClass().add("move_layout");
 
         this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list);
-        this.createOctagonalTilesLayout(octaTiles_layout, octaTile_nodes_list, button_nodes_list);
+        this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
         // this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
@@ -223,6 +241,6 @@ public class Initializer {
         this.engine.addSystem(this.logic_system);
         // this.engine.addSystem(this.move_system);
 
-        root.getChildren().addAll(trackTiles_layout, octaTiles_layout, move_layout); // add according to order
+        root.getChildren().addAll(trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }
 }
