@@ -117,10 +117,10 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm());
+                Image tileImg = new Image(getClass().getResource("/octa_tiles/" + img_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
-                tileImgView.setFitHeight(Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
+                tileImgView.setFitWidth(Settings.OCTATILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
+                tileImgView.setFitHeight(Settings.OCTATILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
 
                 // create button for octagonal tiles
                 Button button = new Button("");

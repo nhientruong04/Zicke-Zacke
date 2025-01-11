@@ -35,8 +35,8 @@ public class Settings {
         TRACKTILE_WIDTH_BASE = 21.0f;
         TILE_SIZE_SCALE = 2f;
 
-        OCTATILE_HEIGHT_BASE = 35.0f;
-        OCTATILE_WIDTH_BASE = 35.0f;
+        OCTATILE_HEIGHT_BASE = 27.0f;
+        OCTATILE_WIDTH_BASE = 27.0f;
 
         CHICKEN_WIDTH_BASE = 64.0f;
         CHICKEN_HEIGHT_BASE = 64.0f;
