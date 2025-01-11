@@ -67,8 +67,8 @@ public class Initializer {
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // read image according to img_id at that index tile_id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                // read image according to tile id
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -117,7 +117,7 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm());
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -214,7 +214,7 @@ public class Initializer {
 
         this.createMap(map_layout, trackTile_nodes_list);
         this.createOctagonalTilesLayout(octaTiles_layout, octaTile_nodes_list, button_nodes_list);
-        this.addPlayers(move_layout, player_nodes_list);
+        // this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
