@@ -8,6 +8,19 @@ public class Settings {
     public static int PLAYERS;
     public static double STAND_PADDING;
 
+    // tiles config
+    public static double TILE_WIDTH_BASE;
+    public static double TILE_HEIGHT_BASE;
+    public static double TILE_SIZE_SCALE;
+
+    // chicken config
+    public static double CHICKEN_WIDTH_BASE;
+    public static double CHICKEN_HEIGHT_BASE;
+    public static double CHICKEN_SIZE_SCALE;
+
+    public static double CHICKEN_PADDING_X;
+    public static double CHICKEN_PADDING_Y;
+
     static {
         MAX_TILES = 12;
         FPS = 30;
@@ -15,5 +28,16 @@ public class Settings {
         HEIGHT = 700;
         PLAYERS = 4;
         STAND_PADDING = 12.0f;
+
+        TILE_HEIGHT_BASE = 25.0f;
+        TILE_WIDTH_BASE = 21.0f;
+        TILE_SIZE_SCALE = 2f;
+
+        CHICKEN_WIDTH_BASE = 64.0f;
+        CHICKEN_HEIGHT_BASE = 64.0f;
+        CHICKEN_SIZE_SCALE = 1f;
+
+        CHICKEN_PADDING_Y = (CHICKEN_HEIGHT_BASE * CHICKEN_SIZE_SCALE - TILE_HEIGHT_BASE * TILE_SIZE_SCALE) + (TILE_HEIGHT_BASE * TILE_SIZE_SCALE)/3;
+        CHICKEN_PADDING_X = (CHICKEN_WIDTH_BASE * CHICKEN_SIZE_SCALE - TILE_WIDTH_BASE * TILE_SIZE_SCALE)/2;
     }
 }

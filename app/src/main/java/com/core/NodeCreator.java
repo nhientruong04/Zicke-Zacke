@@ -10,8 +10,8 @@ public class NodeCreator {
         return new RenderNode(position, hidden_state);
     }
 
-    public TileNode createTileNode(Position position, TileSelectedState selected) {
-        return new TileNode(position, selected);
+    public OctaTileNode createOctaTileNode(FXObject fx_object, TileSelectedState selected) {
+        return new OctaTileNode(fx_object, selected);
     }
 
     public ButtonNode createButtonNode(Button button) {

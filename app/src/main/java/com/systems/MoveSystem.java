@@ -2,17 +2,14 @@ package com.systems;
 
 import javafx.util.Duration;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
-import com.core.Engine;
 import com.core.Settings;
 import com.nodes.PlayerNode;
 import com.nodes.TrackTileNode;
 
 import javafx.animation.PathTransition;
+import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.QuadCurve;
 
 public class MoveSystem extends ISystem {
@@ -22,6 +19,21 @@ public class MoveSystem extends ISystem {
     public MoveSystem(ArrayList<TrackTileNode> trackTile_nodes, ArrayList<PlayerNode> player_nodes) {
         this.trackTile_nodes = trackTile_nodes;
         this.player_nodes = player_nodes;
+
+        this.initial_position();
+    }
+
+    private void initial_position() {
+        for (int i=0; i<this.player_nodes.size(); i++) {
+            PlayerNode player_node = this.player_nodes.get(i);
+            int dest_tileId = player_node.position.tile_id; // get the presumed position
+            
+            ImageView trackTileView = this.trackTile_nodes.get(dest_tileId).fx_object.object;
+            System.out.println("Tile id: " + dest_tileId + ", object " + trackTileView);
+
+            player_node.fx_object.object.setLayoutX(trackTileView.getLayoutX() - Settings.CHICKEN_PADDING_X);
+            player_node.fx_object.object.setLayoutY(trackTileView.getLayoutY() - Settings.CHICKEN_PADDING_Y);
+        }
     }
 
     @Override
@@ -34,7 +46,7 @@ public class MoveSystem extends ISystem {
 
             double targetX = trackTileView.getLayoutX();
             double startX = player_node.fx_object.object.getLayoutX();
-
+            // TODO: incorrect condition
             if (startX!=targetX) {
                 double targetY = trackTileView.getLayoutY() - Settings.STAND_PADDING;
                 double startY = player_node.fx_object.object.getLayoutY();
