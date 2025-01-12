@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 
+
 public class Initializer {
     private Engine engine;
     private RenderSystem render_system;
@@ -30,6 +31,8 @@ public class Initializer {
     public Initializer(Engine engine) {
         this.engine = engine;
     }
+
+   
 
     private void createMap(Pane map_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
         BufferedReader br;
