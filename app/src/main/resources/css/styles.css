@@ -7,9 +7,9 @@
 }
 
 .hud-container {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(211, 219, 218, 0.21);
 }
 
 .hud-row {
-    -fx-background-color: rgba(211, 219, 218, 0.21);
+    -fx-background-color: rgba(211, 219, 218, 0);
 }
