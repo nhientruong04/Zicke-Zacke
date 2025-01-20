@@ -67,8 +67,8 @@ public class Initializer {
                 column = Integer.parseInt(pos[0]);
                 row = Integer.parseInt(pos[1]);
 
-                // read image according to img_id at that index tile_id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                // read image according to tile id
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + tile_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -117,7 +117,7 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/tiles/" + img_id + ".png").toExternalForm());
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + tile_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
