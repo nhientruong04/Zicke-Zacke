@@ -101,11 +101,11 @@ public class LogicSystem extends ISystem {
 
     @Override
     public void update() {
-        // for (TileNode node: this.tile_nodes) {
-        //     if (node.selected.is_selected) {
-        //         this.disableButtons();
+        for (OctaTileNode node: this.octaTile_nodes) {
+            if (node.selected.is_selected) {
+                this.disableButtons();
 
-                //node.selected.is_selected = false;
+                node.selected.is_selected = false;
 
                 int chosenImgId = node.fx_object.img_id;
                 int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
@@ -114,24 +114,25 @@ public class LogicSystem extends ISystem {
 
                 printCurrentPlayerState(chosenImgId);
 
-        //         // if player chose correctly
-        //         if (chosenTileId==nextTileId) {
-        //             // loop to get feathers
-        //             int player_ind = 0;
-        //             while (player_ind<Settings.PLAYERS) {
-        //                 // only consider players not in turn
-        //                 if (player_ind != this.turn_index) {
-        //                     // the tile id of the current player
-        //                     int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
+                // if player chose correctly
+                if (chosenImgId==nextImgId) {
+                    // loop to get feathers
+                    int player_ind = 0;
+                    while (player_ind<Settings.PLAYERS) {
+                        // only consider players not in turn
+                        if (player_ind != this.turn_index) {
+                            // the tile id of the current player
+                            int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
 
+                            // possible ERROR
                             // current player in the way of the player in turn
-                    //         if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
-                    //             this.takeFeathers(this.player_nodes.get(player_ind));
-                    //         }
-                    //     }
+                            if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
+                                this.takeFeathers(this.player_nodes.get(player_ind));
+                            }
+                        }
 
-                    //     player_ind++;
-                    // }
+                        player_ind++;
+                    }
 
                     this.printCurrentPlayerState(chosenImgId);
                     // change position for MoveSystem to process
@@ -140,12 +141,12 @@ public class LogicSystem extends ISystem {
                     this.printAllPlayerState();
                 }
 
-        //         // change turn after finishing the logic
-        //         this.changeTurn();
+                // change turn after finishing the logic
+                this.changeTurn();
 
-        //         this.enableButtons();
-        //         break;
-        //     }
-        // }
+                this.enableButtons();
+                break;
+            }
+        }
     }   
 }

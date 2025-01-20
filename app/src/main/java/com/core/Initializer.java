@@ -138,15 +138,6 @@ public class Initializer {
                 OctaTile octa_tile = engine.entity_creator.createOctaTile(img_id, topTileImgView);
                 // assign button to entity
                 octa_tile.setButton(button);
-
-                // set button action 
-                octa_tile.button.setOnAction(event -> {
-                    if (octa_tile.button.getOpacity() == 1) {
-                        octa_tile.button.setOpacity(0);
-                    } else {
-                        octa_tile.button.setOpacity(1);
-                    }
-                });
                 
                 octaTile_nodes_list.add(
                     engine
@@ -243,12 +234,12 @@ public class Initializer {
 
         this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list);
         this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
-        // this.addPlayers(move_layout, player_nodes_list);
+        this.addPlayers(move_layout, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
-        // this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
