@@ -23,6 +23,9 @@ public class Settings {
     public static double CHICKEN_PADDING_X;
     public static double CHICKEN_PADDING_Y;
 
+    public static double FEATHER_HEIGHT;
+    public static double FEATHER_WIDTH;
+
     static {
         MAX_TILES = 12;
         FPS = 30;
@@ -44,5 +47,8 @@ public class Settings {
 
         CHICKEN_PADDING_Y = (CHICKEN_HEIGHT_BASE * CHICKEN_SIZE_SCALE - TRACKTILE_HEIGHT_BASE * TILE_SIZE_SCALE) + (TRACKTILE_HEIGHT_BASE * TILE_SIZE_SCALE)/3;
         CHICKEN_PADDING_X = (CHICKEN_WIDTH_BASE * CHICKEN_SIZE_SCALE - TRACKTILE_WIDTH_BASE * TILE_SIZE_SCALE)/2;
+
+        FEATHER_HEIGHT = 50;
+        FEATHER_WIDTH = 50;
     }
 }

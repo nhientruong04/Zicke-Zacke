@@ -5,3 +5,11 @@
 .octaTiles_layout {
     -fx-alignment: center;
 }
+
+.hud-container {
+    -fx-background-color: transparent;
+}
+
+.hud-row {
+    -fx-background-color: rgba(211, 219, 218, 0.21);
+}
