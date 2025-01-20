@@ -30,6 +30,7 @@ public class Initializer {
     private RenderSystem render_system;
     private LogicSystem logic_system;
     private MoveSystem move_system;
+    private PlayerHUDSystem hud_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
@@ -274,10 +275,11 @@ public class Initializer {
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
-        this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        this.hud_system = new PlayerHUDSystem(hud_nodes_list);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
+        this.engine.addSystem(this.hud_system);
 
         root.getChildren().addAll(borderPane, trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }
