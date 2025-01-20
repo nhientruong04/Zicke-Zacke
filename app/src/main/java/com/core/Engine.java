@@ -6,6 +6,12 @@ import com.systems.ISystem;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 
 public class Engine {
@@ -33,6 +39,10 @@ public class Engine {
 
     public Scene createMap() {
         StackPane root = new StackPane();
+        BackgroundSize backgroundSize = new BackgroundSize(800, 800, false, false, true, true);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource("/background/background6.png").toExternalForm(), 800, 800, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        root.setBackground(new Background(backgroundImage));
         Scene firstScene = new Scene(root, Settings.WIDTH, Settings.HEIGHT);
 
         this.initializer.initGame(root);
