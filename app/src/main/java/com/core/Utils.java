@@ -1,9 +1,12 @@
 package com.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.nodes.PlayerNode;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,6 +15,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class Utils {
     public static ImageView getImageView(Image img) {
@@ -110,5 +114,19 @@ public class Utils {
         tile_label.prefWidthProperty().bind(gridPane.widthProperty().multiply(0.45));
         tile_label.prefHeightProperty().bind(gridPane.heightProperty().multiply(0.3));
         gridPane.add(tile_label, 1, 0);
+    }
+
+     // Method to create a Timeline animation for a sprite
+    public static Timeline createAnimation(ImageView spriteView, List<Image> frames) {
+        Timeline animation = new Timeline();
+        for (int i = 0; i < frames.size(); i++) {
+            int frameIndex = i; // For use in the lambda expression
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(250 * i), e -> {
+                spriteView.setImage(frames.get(frameIndex));
+            });
+            animation.getKeyFrames().add(keyFrame);
+        }
+        animation.setCycleCount(Timeline.INDEFINITE);
+        return animation;
     }
 }
