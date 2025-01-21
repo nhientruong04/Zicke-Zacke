@@ -49,7 +49,7 @@ public class LogicSystem extends ISystem {
         }
     }
 
-    public int getNextTileId() {
+    public int getRawNextTileId() {
         int playerTileId = this.player_nodes.get(this.turn_index).position.tile_id;
         int nextTileId = playerTileId + 1;
         
@@ -68,13 +68,13 @@ public class LogicSystem extends ISystem {
             player_ind++;
         }
 
-        return (nextTileId%24);
+        return nextTileId; // before taking modulo of 24
     }
 
     private void printCurrentPlayerState(int chosenImgId) {
         int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-        int nextTileId = this.getNextTileId();
-        int nextImgId = this.trackTile_nodes.get(nextTileId).fx_object.img_id;
+        int nextTileId = this.getRawNextTileId();
+        int nextImgId = this.trackTile_nodes.get(nextTileId%24).fx_object.img_id;
 
         System.out.println("-------------------------");
         System.out.println("Player: " + this.player_nodes.get(this.turn_index).fx_object.img_id);
@@ -111,34 +111,37 @@ public class LogicSystem extends ISystem {
 
                 int chosenImgId = node.fx_object.img_id;
                 int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-                int nextTileId = this.getNextTileId();
-                int nextImgId = this.trackTile_nodes.get(nextTileId).fx_object.img_id;
+                int nextTileId = this.getRawNextTileId();
+                int nextImgId = this.trackTile_nodes.get(nextTileId%24).fx_object.img_id;
 
                 printCurrentPlayerState(chosenImgId);
 
                 // if player chose correctly
                 if (chosenImgId==nextImgId) {
-                    // loop to get feathers
-                    int player_ind = 0;
-                    while (player_ind<Settings.PLAYERS) {
-                        // only consider players not in turn
-                        if (player_ind != this.turn_index) {
-                            // the tile id of the current player
-                            int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
+                    
+                    while (++oldTileId!=nextTileId) {
+                        // loop to get feathers
+                        int player_ind = 0;
 
-                            // possible ERROR
-                            // current player in the way of the player in turn
-                            if (currentPlayerTileId>oldTileId & currentPlayerTileId<nextTileId) {
-                                this.takeFeathers(this.player_nodes.get(player_ind));
+                        while (player_ind<Settings.PLAYERS) {
+                            // only consider players not in turn
+                            if (player_ind != this.turn_index) {
+                                // the tile id of the current player
+                                int currentPlayerTileId = this.player_nodes.get(player_ind).position.tile_id;
+    
+                                // current player in the way of the player in turn
+                                if (currentPlayerTileId==oldTileId%24) {
+                                    this.takeFeathers(this.player_nodes.get(player_ind));
+                                }
                             }
+    
+                            player_ind++;
                         }
-
-                        player_ind++;
                     }
 
                     this.printCurrentPlayerState(chosenImgId);
                     // change position for MoveSystem to process
-                    this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
+                    this.player_nodes.get(this.turn_index).position.tile_id = nextTileId%24; // since nextTileId is not modulo
 
                     this.printAllPlayerState();
                 } else {
