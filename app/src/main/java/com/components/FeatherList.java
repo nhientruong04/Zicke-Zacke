@@ -1,14 +1,14 @@
 package com.components;
 
-import com.entities.Feather;
-
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.image.ImageView;
 
 public class FeatherList extends Component {
-    public ArrayList<Feather> feathers;
+    public ObservableList<ImageView> feathers;
 
-    public FeatherList(Feather feather) {
-        this.feathers = new ArrayList<Feather>();
+    public FeatherList(ImageView feather) {
+        this.feathers = FXCollections.observableArrayList();
         this.feathers.add(feather);
     }
 }

@@ -25,8 +25,4 @@ public class NodeCreator {
     public TrackTileNode createTrackTileNode(Position position, FXObject fx_object) {
         return new TrackTileNode(position, fx_object);
     }
-
-    public HUDNode createHUDNode(FeathersHUD hud, FeatherList feather_list) {
-        return new HUDNode(hud, feather_list);
-    }
 }

@@ -13,6 +13,7 @@ import com.entities.*;
 import com.nodes.*;
 import com.systems.*;
 
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -201,25 +202,33 @@ public class Initializer {
             playerImgView.setFitWidth(width);
             playerImgView.setFitHeight(height);
 
-            Player player = this.engine.entity_creator.createPlayer(tile_id, i, playerImgView);
-            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, player.fx_object);
-
             // set HUD for player
             FlowPane hud = new FlowPane(5, 10);
+            // initialize and bind size of player image on HUD
             ImageView chicken_hud = Utils.getImageView(player_img);
             chicken_hud.fitWidthProperty().bind(hud.maxWidthProperty().divide(5));
             chicken_hud.fitHeightProperty().bind(hud.maxHeightProperty());
+            // initialize and bind size of feather image on HUD
             ImageView feather_hud = Utils.getImageView(feather_img);
             feather_hud.fitWidthProperty().bind(hud.maxWidthProperty().divide(5));
             feather_hud.fitHeightProperty().bind(hud.maxHeightProperty());
+
             hud.getChildren().addAll(chicken_hud, feather_hud);
             hud.maxWidthProperty().bind(hud_section.maxWidthProperty());
             hud.maxHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
             hud.getStyleClass().add("hud-row");
 
-            FeathersHUD hud_component = new FeathersHUD(hud);
-            HUDNode hud_node = this.engine.node_creator.createHUDNode(hud_component, player.feather_list);
-            hud_nodes_list.add(hud_node);
+            // create player and player node
+            Player player = this.engine.entity_creator.createPlayer(tile_id, i, feather_hud, playerImgView);
+            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, player.fx_object);
+            hud.getChildren().setAll(player.feather_list.feathers); // Initializes
+            // set change listener to flowpane
+            player
+                .feather_list
+                .feathers
+                .addListener((ListChangeListener<ImageView>) change -> {
+                    hud.getChildren().setAll(player.feather_list.feathers); 
+                });
 
             // add to map
             move_layout.getChildren().add(player.fx_object.object);
@@ -275,11 +284,9 @@ public class Initializer {
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
-        this.hud_system = new PlayerHUDSystem(hud_nodes_list);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
-        this.engine.addSystem(this.hud_system);
 
         root.getChildren().addAll(borderPane, trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }

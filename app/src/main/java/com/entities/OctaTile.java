@@ -26,9 +26,9 @@ public class OctaTile extends Tile {
             button.setOpacity(0);
 
             // Create a PauseTransition for 2 seconds
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
-            pause.setOnFinished(ev -> button.setOpacity(1)); // Restore opacity
-            pause.play(); // Start the timer
+            // PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            // pause.setOnFinished(ev -> button.setOpacity(1)); // Restore opacity
+            // pause.play(); // Start the timer
         });
 
         this.button = button;

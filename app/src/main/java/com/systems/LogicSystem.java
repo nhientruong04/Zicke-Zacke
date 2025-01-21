@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import com.nodes.ButtonNode;
 import com.nodes.PlayerNode;
 import com.nodes.TrackTileNode;
+
+import javafx.scene.image.ImageView;
+
 import com.nodes.OctaTileNode;
 
 import com.core.Settings;
-import com.entities.Feather;
 
 public class LogicSystem extends ISystem {
     private ArrayList<OctaTileNode> octaTile_nodes;
@@ -40,7 +42,7 @@ public class LogicSystem extends ISystem {
         // give feather from p2 to p1
         PlayerNode p1 = this.player_nodes.get(this.turn_index); // current player
         
-        Feather feather;
+        ImageView feather;
         while(!p2.feather_list.feathers.isEmpty()) {
             feather = p2.feather_list.feathers.remove(0);
             p1.feather_list.feathers.add(feather);        

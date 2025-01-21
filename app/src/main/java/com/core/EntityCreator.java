@@ -33,12 +33,11 @@ public class EntityCreator {
         return BlueprintRegistry.create("OctaTile", params);
     }
 
-    public Player createPlayer(int track_id, int img_id, ImageView fx_object) {
+    public Player createPlayer(int track_id, int img_id, ImageView feather_object, ImageView fx_object) {
         Map<String, Object> params = new HashMap<String, Object>();
-        Feather feather = new Feather();
 
         Position position = new Position(track_id);
-        FeatherList feathers = new FeatherList(feather);
+        FeatherList feathers = new FeatherList(feather_object);
         FXObject object = new FXObject(img_id, fx_object);
 
         params.put("position", position);
