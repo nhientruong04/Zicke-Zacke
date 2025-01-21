@@ -184,7 +184,7 @@ public class Initializer {
             .compareTo(o2.fx_object.img_id));
     }
 
-    private void addPlayers(Pane move_layout, GridPane hud_section, ArrayList<PlayerNode> player_nodes_list, ArrayList<AnimateNode> animate_nodes_list) {
+    private void addPlayers(Pane move_layout, GridPane hud_section, ArrayList<PlayerNode> player_nodes_list) {
         // TODO: bullshit player randomization
 
         Integer num_player = Settings.PLAYERS;
@@ -221,7 +221,6 @@ public class Initializer {
             // create player and player node
             Player player = this.engine.entity_creator.createPlayer(tile_id, i, feather_hud, playerImgView);
             PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, player.fx_object);
-            AnimateNode animate_node = this.engine.node_creator.createAnimateNode(player.fx_object);
             hud.getChildren().setAll(player.feather_list.feathers);
             
             // size and style of hud section flowpane
@@ -244,7 +243,6 @@ public class Initializer {
 
             // add to node list and update next position
             player_nodes_list.add(player_node);
-            animate_nodes_list.add(animate_node);
             tile_id = (tile_id + space) % 24;
             hud_row_idx++;
         }
@@ -255,7 +253,6 @@ public class Initializer {
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
-        ArrayList<AnimateNode> animate_nodes_list = new ArrayList<AnimateNode>();
         List<Integer> trackTile_img_indices;
 
         Pane trackTiles_layout = new Pane();
@@ -293,13 +290,13 @@ public class Initializer {
         // create track tiles and get img indices
         trackTile_img_indices = new ArrayList<Integer>(this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list));
         this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
-        this.addPlayers(move_layout, player_and_feather_HUD, player_nodes_list, animate_nodes_list);
+        this.addPlayers(move_layout, player_and_feather_HUD, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
         this.turn_HUD_system = new TurnHUDDisplaySystem(player_nodes_list, turn_and_tile_HUD, trackTile_img_indices);
-        this.animate_system = new PlayerAnimateSystem(animate_nodes_list);
+        this.animate_system = new PlayerAnimateSystem(player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);

@@ -4,7 +4,6 @@ import com.components.*;
 import com.nodes.*;
 
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 
 public class NodeCreator {
     public RenderNode createRenderNode(Position position, HiddenState hidden_state) {
@@ -25,9 +24,5 @@ public class NodeCreator {
 
     public TrackTileNode createTrackTileNode(Position position, FXObject fx_object) {
         return new TrackTileNode(position, fx_object);
-    }
-
-    public AnimateNode createAnimateNode(FXObject player_object) {
-        return new AnimateNode(player_object);
     }
 }
