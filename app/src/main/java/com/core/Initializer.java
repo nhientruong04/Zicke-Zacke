@@ -32,12 +32,13 @@ public class Initializer {
     private RenderSystem render_system;
     private LogicSystem logic_system;
     private MoveSystem move_system;
+    private TurnHUDDisplaySystem turn_HUD_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
     }
 
-    private void createTrackTilesLayout(Pane trackTiles_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
+    private List<Integer> createTrackTilesLayout(Pane trackTiles_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
         BufferedReader br;
 
         // shuffle to create random order of tile indices
@@ -74,7 +75,7 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -96,6 +97,8 @@ public class Initializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return img_indices_list;
     }
 
     private void createOctagonalTilesLayout(GridPane octaTiles_top_layout, GridPane octaTiles_under_layout, ArrayList<OctaTileNode> octaTile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
@@ -251,6 +254,7 @@ public class Initializer {
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
+        List<Integer> trackTile_img_indices;
 
         Pane trackTiles_layout = new Pane();
         // Bind the Pane's size to the StackPane's size
@@ -271,46 +275,32 @@ public class Initializer {
         move_layout.setMouseTransparent(true); // Pass mouse events through
         move_layout.getStyleClass().add("move_layout");
 
-        // Main container for FlowPanes
-        GridPane hud_section = new GridPane(); // Spacing between FlowPanes
-        hud_section.setPadding(new Insets(5));
-        hud_section.maxWidthProperty().bind(root.widthProperty().multiply(0.3));
-        hud_section.maxHeightProperty().bind(root.heightProperty().divide(4));
-        hud_section.getStyleClass().add("hud-container");
+        // Player and Feather HUD
+        GridPane player_and_feather_HUD = new GridPane();
+        Utils.setPlayerFeatherHUDSettings(player_and_feather_HUD, root);
 
-        // Add column constraints to make columns fill available space
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(25); // 50% of the total width
-        ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(75); // 50% of the total width
-        hud_section.getColumnConstraints().addAll(col1, col2);
-
-        // Add row constraints to make rows fill available space
-        RowConstraints row1 = new RowConstraints();
-        row1.setPercentHeight(25); // 50% of the total height
-        RowConstraints row2 = new RowConstraints();
-        row2.setPercentHeight(25); // 50% of the total height
-        hud_section.getRowConstraints().addAll(row1, row2);
-        RowConstraints row3 = new RowConstraints();
-        row1.setPercentHeight(25); // 50% of the total height
-        RowConstraints row4 = new RowConstraints();
-        row2.setPercentHeight(25); // 50% of the total height
-        hud_section.getRowConstraints().addAll(row1, row2, row3, row4);
+        // Turn and Tile HUD
+        GridPane turn_and_tile_HUD = new GridPane();
+        Utils.setTurnTileHUDSettings(turn_and_tile_HUD, root);
 
         // BorderPane for huds
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(hud_section);
+        borderPane.setTop(player_and_feather_HUD);
+        borderPane.setLeft(turn_and_tile_HUD);
 
-        this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list);
+        // create track tiles and get img indices
+        trackTile_img_indices = new ArrayList<Integer>(this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list));
         this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
-        this.addPlayers(move_layout, hud_section, player_nodes_list);
+        this.addPlayers(move_layout, player_and_feather_HUD, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        this.turn_HUD_system = new TurnHUDDisplaySystem(player_nodes_list, turn_and_tile_HUD, trackTile_img_indices);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
+        this.engine.addSystem(this.turn_HUD_system);
 
         root.getChildren().addAll(borderPane, trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }

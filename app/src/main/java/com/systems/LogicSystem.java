@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import com.nodes.OctaTileNode;
 
 import com.core.Settings;
+import com.core.Utils;
 
 public class LogicSystem extends ISystem {
     private ArrayList<OctaTileNode> octaTile_nodes;
@@ -27,7 +28,7 @@ public class LogicSystem extends ISystem {
         this.trackTile_nodes = trackTile_nodes;
 
         this.turn_index = 0;
-        // this.player_nodes.get(0).setTurn(); // set turn to the first player
+        this.player_nodes.get(0).setTurn(); // set turn to the first player
     }
 
     private void disableButtons() {
@@ -49,31 +50,9 @@ public class LogicSystem extends ISystem {
         }
     }
 
-    public int getRawNextTileId() {
-        int playerTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-        int nextTileId = playerTileId + 1;
-        
-        ArrayList<PlayerNode> player_nodes_cloned = new ArrayList<PlayerNode>(this.player_nodes);
-        player_nodes_cloned.remove(this.turn_index); // remove current player
-        player_nodes_cloned.sort((o1, o2) -> ((Integer) o1.position.tile_id).compareTo(o2.position.tile_id));
-        
-        int player_ind = 0;
-
-        while (player_ind<Settings.PLAYERS-1) {
-            if (player_nodes_cloned.get(player_ind).position.tile_id==(nextTileId%24)) {
-                nextTileId++;
-                player_ind = -1;
-            }
-
-            player_ind++;
-        }
-
-        return nextTileId; // before taking modulo of 24
-    }
-
     private void printCurrentPlayerState(int chosenImgId) {
         int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-        int nextTileId = this.getRawNextTileId();
+        int nextTileId = Utils.getPlayerNextRawTileId(this.player_nodes);
         int nextImgId = this.trackTile_nodes.get(nextTileId%24).fx_object.img_id;
 
         System.out.println("-------------------------");
@@ -111,7 +90,7 @@ public class LogicSystem extends ISystem {
 
                 int chosenImgId = node.fx_object.img_id;
                 int oldTileId = this.player_nodes.get(this.turn_index).position.tile_id;
-                int nextTileId = this.getRawNextTileId();
+                int nextTileId = Utils.getPlayerNextRawTileId(this.player_nodes);
                 int nextImgId = this.trackTile_nodes.get(nextTileId%24).fx_object.img_id;
 
                 printCurrentPlayerState(chosenImgId);
