@@ -141,10 +141,10 @@ public class LogicSystem extends ISystem {
                     this.player_nodes.get(this.turn_index).position.tile_id = nextTileId;
 
                     this.printAllPlayerState();
+                } else {
+                    // change turn if player chose wrong
+                    this.changeTurn();
                 }
-
-                // change turn after finishing the logic
-                this.changeTurn();
 
                 this.enableButtons();
                 break;
