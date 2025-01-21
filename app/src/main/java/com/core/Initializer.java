@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 
-import com.components.FeathersHUD;
 import com.entities.*;
 import com.nodes.*;
 import com.systems.*;
@@ -19,9 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -31,7 +32,6 @@ public class Initializer {
     private RenderSystem render_system;
     private LogicSystem logic_system;
     private MoveSystem move_system;
-    private PlayerHUDSystem hud_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
@@ -182,7 +182,7 @@ public class Initializer {
         octaTile_nodes_list.sort((o1, o2) -> ((Integer) o1.fx_object.img_id).compareTo(o2.fx_object.img_id));
     }
 
-    private void addPlayers(Pane move_layout, VBox hud_section, ArrayList<HUDNode> hud_nodes_list, ArrayList<PlayerNode> player_nodes_list) {
+    private void addPlayers(Pane move_layout, GridPane hud_section, ArrayList<PlayerNode> player_nodes_list) {
         // TODO: bullshit player randomization
 
         Integer num_player = Settings.PLAYERS;
@@ -194,6 +194,7 @@ public class Initializer {
         int space = 24 / num_player;
         double height = Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE;
         double width = Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE;
+        int hud_row_idx = 0;
 
         for (int i=0; i<num_player; i++) {
             // read image according to tile id
@@ -206,22 +207,25 @@ public class Initializer {
             FlowPane hud = new FlowPane(5, 10);
             // initialize and bind size of player image on HUD
             ImageView chicken_hud = Utils.getImageView(player_img);
-            chicken_hud.fitWidthProperty().bind(hud.maxWidthProperty().divide(5));
-            chicken_hud.fitHeightProperty().bind(hud.maxHeightProperty());
+            chicken_hud.setPreserveRatio(true);
+            chicken_hud.fitWidthProperty().bind(hud_section.maxWidthProperty().divide(5));
+            chicken_hud.fitHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
             // initialize and bind size of feather image on HUD
             ImageView feather_hud = Utils.getImageView(feather_img);
+            feather_hud.setPreserveRatio(true);
             feather_hud.fitWidthProperty().bind(hud.maxWidthProperty().divide(5));
             feather_hud.fitHeightProperty().bind(hud.maxHeightProperty());
-
-            hud.getChildren().addAll(chicken_hud, feather_hud);
-            hud.maxWidthProperty().bind(hud_section.maxWidthProperty());
-            hud.maxHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
-            hud.getStyleClass().add("hud-row");
 
             // create player and player node
             Player player = this.engine.entity_creator.createPlayer(tile_id, i, feather_hud, playerImgView);
             PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, player.fx_object);
-            hud.getChildren().setAll(player.feather_list.feathers); // Initializes
+            hud.getChildren().setAll(player.feather_list.feathers);
+            
+            // size and style of hud section flowpane
+            hud.maxWidthProperty().bind(hud_section.maxWidthProperty().multiply(0.75));
+            hud.maxHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
+            hud.getStyleClass().add("hud-row");
+
             // set change listener to flowpane
             player
                 .feather_list
@@ -232,11 +236,13 @@ public class Initializer {
 
             // add to map
             move_layout.getChildren().add(player.fx_object.object);
-            hud_section.getChildren().add(hud);
+            hud_section.add(chicken_hud, 0, hud_row_idx);
+            hud_section.add(hud, 1, hud_row_idx);
 
             // add to node list and update next position
             player_nodes_list.add(player_node);
             tile_id = (tile_id + space) % 24;
+            hud_row_idx++;
         }
     }
 
@@ -245,7 +251,6 @@ public class Initializer {
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
-        ArrayList<HUDNode> hud_nodes_list = new ArrayList<HUDNode>();
 
         Pane trackTiles_layout = new Pane();
         // Bind the Pane's size to the StackPane's size
@@ -267,11 +272,30 @@ public class Initializer {
         move_layout.getStyleClass().add("move_layout");
 
         // Main container for FlowPanes
-        VBox hud_section = new VBox(5); // Spacing between FlowPanes
+        GridPane hud_section = new GridPane(); // Spacing between FlowPanes
         hud_section.setPadding(new Insets(5));
         hud_section.maxWidthProperty().bind(root.widthProperty().multiply(0.3));
         hud_section.maxHeightProperty().bind(root.heightProperty().divide(4));
         hud_section.getStyleClass().add("hud-container");
+
+        // Add column constraints to make columns fill available space
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(25); // 50% of the total width
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(75); // 50% of the total width
+        hud_section.getColumnConstraints().addAll(col1, col2);
+
+        // Add row constraints to make rows fill available space
+        RowConstraints row1 = new RowConstraints();
+        row1.setPercentHeight(25); // 50% of the total height
+        RowConstraints row2 = new RowConstraints();
+        row2.setPercentHeight(25); // 50% of the total height
+        hud_section.getRowConstraints().addAll(row1, row2);
+        RowConstraints row3 = new RowConstraints();
+        row1.setPercentHeight(25); // 50% of the total height
+        RowConstraints row4 = new RowConstraints();
+        row2.setPercentHeight(25); // 50% of the total height
+        hud_section.getRowConstraints().addAll(row1, row2, row3, row4);
 
         // BorderPane for huds
         BorderPane borderPane = new BorderPane();
@@ -279,7 +303,7 @@ public class Initializer {
 
         this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list);
         this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
-        this.addPlayers(move_layout, hud_section, hud_nodes_list, player_nodes_list);
+        this.addPlayers(move_layout, hud_section, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
