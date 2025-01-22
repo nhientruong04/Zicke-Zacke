@@ -13,3 +13,7 @@
 .hud-row {
     -fx-background-color: rgba(211, 219, 218, 0);
 }
+
+.turn-hud-label {
+    -fx-font-size: 25px;
+}
