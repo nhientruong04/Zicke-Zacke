@@ -4,9 +4,9 @@ import com.core.Engine;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 public class Main extends Application {
 
     @Override
@@ -23,8 +23,20 @@ public class Main extends Application {
         engine.run();
 
         
+        Scene startScene = engine.createStartScene();
+        Scene playersScene = engine.createModePlayerScene();
+        Button startButton = (Button) startScene.lookup("#start-button");
+        Button backButton = (Button) playersScene.lookup("#back-button");
+        startButton.setOnAction(e -> primaryStage.setScene(playersScene)); // Switch to Scene 2
+        backButton.setOnAction(e -> primaryStage.setScene(startScene));  // Switch back to Scene 1
+
+        
+        startScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+        playersScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+        
+        
         primaryStage.setTitle("Draft Map");
-        primaryStage.setScene(firstScene);
+        primaryStage.setScene(startScene);
         primaryStage.show();
 
     }

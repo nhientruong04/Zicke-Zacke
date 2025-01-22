@@ -5,3 +5,53 @@
 .octaTiles_layout {
     -fx-alignment: center;
 }
+@font-face {
+    font-family: 'Supercell-Magic';
+    src: url('"D:/Downloads/supercell-magic-webfont.ttf"') format('truetype');
+}
+
+.button-style {
+    -fx-font-size: 18px;
+    -fx-font-family: "Supercell-Magic";
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#4CAF50, #2E7D32);
+    -fx-padding: 12px 24px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 8, 0, 0, 5);
+}
+
+.button-style:hover{
+    -fx-cursor: hand;
+}
+
+#start-button:hover {
+    -fx-background-color: linear-gradient(#66BB6A, #43A047);
+}
+
+
+#start-button:pressed {
+    -fx-background-color: linear-gradient(#388E3C, #4CAF50);
+    -fx-padding: 14px 26px; /* Simulate button being pressed */
+}
+
+
+/* Solid Color Background */
+.solid-background {
+    -fx-background-color: #3498db; /* Blue color */
+}
+
+/* Gradient Background */
+.gradient-background {
+    -fx-background-color: linear-gradient(to bottom, #8e44ad, #3498db);
+}
+
+/* Image Background */
+.image-background {
+    -fx-background-image: url("background-image.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
