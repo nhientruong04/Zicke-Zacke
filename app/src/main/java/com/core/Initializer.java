@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 
-import com.components.FXObject;
 import com.entities.*;
 import com.nodes.*;
 import com.systems.*;
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
 
 
 public class Initializer {
@@ -27,12 +28,14 @@ public class Initializer {
     private RenderSystem render_system;
     private LogicSystem logic_system;
     private MoveSystem move_system;
+    private TurnHUDDisplaySystem turn_HUD_system;
+    private PlayerAnimateSystem animate_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
     }
 
-    private void createTrackTilesLayout(Pane trackTiles_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
+    private List<Integer> createTrackTilesLayout(Pane trackTiles_layout, ArrayList<TrackTileNode> trackTile_nodes_list) {
         BufferedReader br;
 
         // shuffle to create random order of tile indices
@@ -69,7 +72,7 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id % 12 + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
                 ImageView tileImgView = new ImageView(tileImg);
                 tileImgView.setFitWidth(Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
                 tileImgView.setFitHeight(Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
@@ -91,6 +94,8 @@ public class Initializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return img_indices_list;
     }
 
     private void createOctagonalTilesLayout(GridPane octaTiles_top_layout, GridPane octaTiles_under_layout, ArrayList<OctaTileNode> octaTile_nodes_list, ArrayList<ButtonNode> button_nodes_list) {
@@ -138,15 +143,6 @@ public class Initializer {
                 OctaTile octa_tile = engine.entity_creator.createOctaTile(img_id, topTileImgView);
                 // assign button to entity
                 octa_tile.setButton(button);
-
-                // set button action 
-                octa_tile.button.setOnAction(event -> {
-                    if (octa_tile.button.getOpacity() == 1) {
-                        octa_tile.button.setOpacity(0);
-                    } else {
-                        octa_tile.button.setOpacity(1);
-                    }
-                });
                 
                 octaTile_nodes_list.add(
                     engine
@@ -183,36 +179,72 @@ public class Initializer {
         }
 
         // sort for precise indexing in other systems
-        octaTile_nodes_list.sort((o1, o2) -> ((Integer) o1.fx_object.img_id).compareTo(o2.fx_object.img_id));
+        octaTile_nodes_list
+            .sort((o1, o2) -> ((Integer) o1.fx_object.img_id)
+            .compareTo(o2.fx_object.img_id));
     }
 
-    private void addPlayers(Pane move_layout, ArrayList<PlayerNode> player_nodes_list) {
+    private void addPlayers(Pane move_layout, GridPane hud_section, ArrayList<PlayerNode> player_nodes_list) {
         // TODO: bullshit player randomization
 
         Integer num_player = Settings.PLAYERS;
+        Image feather_img = new Image(getClass().getResource("/feather/feather.png").toExternalForm());
 
         Random rand = new Random();
         Integer tile_id = rand.nextInt(24);
         
         int space = 24 / num_player;
+        double height = Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE;
+        double width = Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE;
+        int hud_row_idx = 0;
 
         for (int i=0; i<num_player; i++) {
             // read image according to tile id
-            Image chickenImg = new Image(getClass().getResource("/chicken/chicken_" + i + "/1.png").toExternalForm());
-            ImageView chickenImgView = new ImageView(chickenImg);
-            chickenImgView.setFitWidth(Settings.CHICKEN_WIDTH_BASE * Settings.CHICKEN_SIZE_SCALE);
-            chickenImgView.setFitHeight(Settings.CHICKEN_HEIGHT_BASE * Settings.CHICKEN_SIZE_SCALE);
+            Image player_img = new Image(getClass().getResource("/chicken/chicken_" + i + "/1.png").toExternalForm());
+            ImageView playerImgView = Utils.getImageView(player_img);
+            playerImgView.setFitWidth(width);
+            playerImgView.setFitHeight(height);
 
-            Player player = this.engine.entity_creator.createPlayer(tile_id, i, chickenImgView);
-            FXObject fx_object = new FXObject(num_player, chickenImgView);
-            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, fx_object);
+            // set HUD for player
+            FlowPane hud = new FlowPane(5, 10);
+            // initialize and bind size of player image on HUD
+            ImageView chicken_hud = Utils.getImageView(player_img);
+            chicken_hud.setPreserveRatio(true);
+            chicken_hud.fitWidthProperty().bind(hud_section.maxWidthProperty().divide(5));
+            chicken_hud.fitHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
+            // initialize and bind size of feather image on HUD
+            ImageView feather_hud = Utils.getImageView(feather_img);
+            feather_hud.setPreserveRatio(true);
+            feather_hud.fitWidthProperty().bind(hud.maxWidthProperty().divide(5));
+            feather_hud.fitHeightProperty().bind(hud.maxHeightProperty());
+
+            // create player and player node
+            Player player = this.engine.entity_creator.createPlayer(tile_id, i, feather_hud, playerImgView);
+            PlayerNode player_node = this.engine.node_creator.createPlayerNode(player.position, player.feather_list, player.fx_object);
+            hud.getChildren().setAll(player.feather_list.feathers);
+            
+            // size and style of hud section flowpane
+            hud.maxWidthProperty().bind(hud_section.maxWidthProperty().multiply(0.75));
+            hud.maxHeightProperty().bind(hud_section.maxHeightProperty().divide(4));
+            hud.getStyleClass().add("hud-row");
+
+            // set change listener to flowpane
+            player
+                .feather_list
+                .feathers
+                .addListener((ListChangeListener<ImageView>) change -> {
+                    hud.getChildren().setAll(player.feather_list.feathers); 
+                });
 
             // add to map
-            move_layout.getChildren().add(chickenImgView);
+            move_layout.getChildren().add(player.fx_object.object);
+            hud_section.add(chicken_hud, 0, hud_row_idx);
+            hud_section.add(hud, 1, hud_row_idx);
 
             // add to node list and update next position
             player_nodes_list.add(player_node);
             tile_id = (tile_id + space) % 24;
+            hud_row_idx++;
         }
     }
 
@@ -221,6 +253,7 @@ public class Initializer {
         ArrayList<ButtonNode> button_nodes_list = new ArrayList<ButtonNode>();
         ArrayList<PlayerNode> player_nodes_list = new ArrayList<PlayerNode>();
         ArrayList<TrackTileNode> trackTile_nodes_list = new ArrayList<TrackTileNode>();
+        List<Integer> trackTile_img_indices;
 
         Pane trackTiles_layout = new Pane();
         // Bind the Pane's size to the StackPane's size
@@ -241,18 +274,35 @@ public class Initializer {
         move_layout.setMouseTransparent(true); // Pass mouse events through
         move_layout.getStyleClass().add("move_layout");
 
-        this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list);
+        // Player and Feather HUD
+        GridPane player_and_feather_HUD = new GridPane();
+        Utils.setPlayerFeatherHUDSettings(player_and_feather_HUD, root);
+
+        // Turn and Tile HUD
+        GridPane turn_and_tile_HUD = new GridPane();
+        Utils.setTurnTileHUDSettings(turn_and_tile_HUD, root);
+
+        // BorderPane for huds
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(player_and_feather_HUD);
+        borderPane.setLeft(turn_and_tile_HUD);
+
+        // create track tiles and get img indices
+        trackTile_img_indices = new ArrayList<Integer>(this.createTrackTilesLayout(trackTiles_layout, trackTile_nodes_list));
         this.createOctagonalTilesLayout(octaTiles_top_layout, octaTiles_under_layout, octaTile_nodes_list, button_nodes_list);
-        // this.addPlayers(move_layout, player_nodes_list);
+        this.addPlayers(move_layout, player_and_feather_HUD, player_nodes_list);
 
         // set LogicSystem
         this.logic_system = new LogicSystem(octaTile_nodes_list, button_nodes_list, player_nodes_list, trackTile_nodes_list);
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
-        // this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
+        this.turn_HUD_system = new TurnHUDDisplaySystem(player_nodes_list, turn_and_tile_HUD, trackTile_img_indices);
+        this.animate_system = new PlayerAnimateSystem(player_nodes_list);
 
         this.engine.addSystem(this.logic_system);
-        // this.engine.addSystem(this.move_system);
+        this.engine.addSystem(this.move_system);
+        this.engine.addSystem(this.turn_HUD_system);
+        this.engine.addSystem(this.animate_system);
 
-        root.getChildren().addAll(trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
+        root.getChildren().addAll(borderPane, trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }
 }

@@ -87,7 +87,7 @@ public class Engine {
     public Scene createMap() {
         StackPane root = new StackPane();
         BackgroundSize backgroundSize = new BackgroundSize(800, 800, false, false, true, true);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource("/background/background6.png").toExternalForm(), 800, 800, false, true),
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource("/background/background7.jpg").toExternalForm(), 800, 800, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
         Scene firstScene = new Scene(root, Settings.WIDTH, Settings.HEIGHT);

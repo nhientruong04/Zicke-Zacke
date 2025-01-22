@@ -11,9 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        StackPane root = new StackPane();
-        
-
         Engine engine = new Engine();
         Scene firstScene = engine.createMap();
 
@@ -34,8 +31,22 @@ public class Main extends Application {
         startScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         playersScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         
+
+        
+        Scene startScene = engine.createStartScene();
+        Scene playersScene = engine.createModePlayerScene();
+        Button startButton = (Button) startScene.lookup("#start-button");
+        Button backButton = (Button) playersScene.lookup("#back-button");
+        startButton.setOnAction(e -> primaryStage.setScene(playersScene)); // Switch to Scene 2
+        backButton.setOnAction(e -> primaryStage.setScene(startScene));  // Switch back to Scene 1
+
+        
+        startScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+        playersScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+        
         
         primaryStage.setTitle("Draft Map");
+        primaryStage.setScene(startScene);
         primaryStage.setScene(startScene);
         primaryStage.show();
 
