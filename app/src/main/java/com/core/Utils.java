@@ -98,21 +98,25 @@ public class Utils {
 
         // Add row constraints to make rows fill available space
         RowConstraints row1 = new RowConstraints();
-        row1.setPercentHeight(30); // 30% of the total height
+        row1.setPercentHeight(40); // 40% of the total height
         RowConstraints row2 = new RowConstraints();
-        row2.setPercentHeight(70); // 70% of the total height
+        row2.setPercentHeight(60); // 60% of the total height
         gridPane.getRowConstraints().addAll(row1, row2);
 
         // Add "Turn" Label
         Label turn_label = new Label("Turn");
-        turn_label.prefWidthProperty().bind(gridPane.widthProperty().multiply(0.45));
-        turn_label.prefHeightProperty().bind(gridPane.heightProperty().multiply(0.3));
+        // turn_label.minWidthProperty().bind(gridPane.widthProperty().multiply(0.45));
+        // turn_label.minHeightProperty().bind(gridPane.heightProperty().multiply(0.4));
+        turn_label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        turn_label.getStyleClass().add("turn-hud-label");
         gridPane.add(turn_label, 0, 0);
 
         // Add "Next Tile" Label
         Label tile_label = new Label("Next Tile");
-        tile_label.prefWidthProperty().bind(gridPane.widthProperty().multiply(0.45));
-        tile_label.prefHeightProperty().bind(gridPane.heightProperty().multiply(0.3));
+        // tile_label.minWidthProperty().bind(gridPane.widthProperty().multiply(0.45));
+        // tile_label.minHeightProperty().bind(gridPane.heightProperty().multiply(0.4));
+        tile_label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        tile_label.getStyleClass().add("turn-hud-label");
         gridPane.add(tile_label, 1, 0);
     }
 
