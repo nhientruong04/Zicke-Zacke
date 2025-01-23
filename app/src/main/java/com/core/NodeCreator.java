@@ -6,10 +6,6 @@ import com.nodes.*;
 import javafx.scene.control.Button;
 
 public class NodeCreator {
-    public RenderNode createRenderNode(Position position, HiddenState hidden_state) {
-        return new RenderNode(position, hidden_state);
-    }
-
     public OctaTileNode createOctaTileNode(FXObject fx_object, TileSelectedState selected) {
         return new OctaTileNode(fx_object, selected);
     }

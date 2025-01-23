@@ -25,7 +25,6 @@ import javafx.scene.layout.StackPane;
 
 public class Initializer {
     private Engine engine;
-    private RenderSystem render_system;
     private LogicSystem logic_system;
     private MoveSystem move_system;
     private TurnHUDDisplaySystem turn_HUD_system;
