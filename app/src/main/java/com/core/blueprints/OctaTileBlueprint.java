@@ -1,7 +1,6 @@
 package com.core.blueprints;
 
 import com.components.FXObject;
-import com.components.Position;
 import com.entities.OctaTile;
 
 import java.util.Map;

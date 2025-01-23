@@ -9,6 +9,5 @@ public class TrackTile extends Tile {
     public TrackTile(Position position, FXObject fx_object) {
         this.position = position;
         this.fx_object = fx_object;
-        this.hidden_state = null;
     }
 }

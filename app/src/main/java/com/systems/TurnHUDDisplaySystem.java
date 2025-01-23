@@ -1,9 +1,7 @@
 package com.systems;
 
-import com.components.HiddenState;
 import com.core.Utils;
 import com.nodes.PlayerNode;
-import com.nodes.RenderNode;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

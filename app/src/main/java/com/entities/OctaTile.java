@@ -1,7 +1,6 @@
 package com.entities;
 
 import com.components.FXObject;
-import com.components.HiddenState;
 import com.components.TileSelectedState;
 
 import javafx.animation.PauseTransition;
@@ -14,7 +13,6 @@ public class OctaTile extends Tile {
 
     public OctaTile(FXObject fx_object) {
         this.fx_object = fx_object;
-        this.hidden_state = new HiddenState();
         this.selected = new TileSelectedState();
     }
 
