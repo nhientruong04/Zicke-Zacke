@@ -50,8 +50,6 @@ public class Initializer {
         int tileColumns = 8;
         double tileWidth = (Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE) + 15; // Example size for each tile
         double tileHeight = (Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5;
-        double mapWidth = Settings.WIDTH; // Match the background width
-        double mapHeight = Settings.HEIGHT; // Match the background height
 
         double layout_width = tileColumns * tileWidth;
         double layout_height = tileRows * tileHeight;
@@ -84,7 +82,7 @@ public class Initializer {
                 // tileImgView.setLayoutX(startX + column * tileWidth);
                 tileImgView.layoutXProperty().bind(trackTiles_layout.widthProperty().subtract(layout_width).divide(2).add(15).add(column*tileWidth));
                 // tileImgView.setLayoutY(startY + row * tileHeight);
-                tileImgView.layoutYProperty().bind(trackTiles_layout.heightProperty().subtract(layout_width).divide(2).add(5).add(row*tileHeight));
+                tileImgView.layoutYProperty().bind(trackTiles_layout.heightProperty().subtract(layout_height).divide(2).add(5).add(row*tileHeight));
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, img_id, tileImgView);
