@@ -49,12 +49,16 @@ public class Initializer {
         // Load and arrange 24 tiles at the center of the map
         int tileRows = 8;
         int tileColumns = 8;
-        double tileSize = (Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5; // Example size for each tile
-        double mapWidth = 1000; // Match the background width
-        double mapHeight = 700; // Match the background height
+        double tileWidth = (Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE) + 15; // Example size for each tile
+        double tileHeight = (Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5;
+        double mapWidth = Settings.WIDTH; // Match the background width
+        double mapHeight = Settings.HEIGHT; // Match the background height
 
-        double startX = (mapWidth - (tileColumns * tileSize)) / 2;
-        double startY = (mapHeight - (tileRows * tileSize)) / 2;
+        double layout_width = tileColumns * tileWidth;
+        double layout_height = tileRows * tileHeight;
+
+        // double startX = (mapWidth - layout_width) / 2 + 15;
+        // double startY = (mapHeight - layout_height) / 2 + 5;
 
         try {
             br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/track_map.txt")));
@@ -78,8 +82,10 @@ public class Initializer {
                 tileImgView.setFitHeight(Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
 
                 // Position the tile
-                tileImgView.setLayoutX(startX + column * tileSize);
-                tileImgView.setLayoutY(startY + row * tileSize);
+                // tileImgView.setLayoutX(startX + column * tileWidth);
+                tileImgView.layoutXProperty().bind(trackTiles_layout.widthProperty().subtract(layout_width).divide(2).add(15).add(column*tileWidth));
+                // tileImgView.setLayoutY(startY + row * tileHeight);
+                tileImgView.layoutYProperty().bind(trackTiles_layout.heightProperty().subtract(layout_width).divide(2).add(5).add(row*tileHeight));
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, img_id, tileImgView);

@@ -6,6 +6,9 @@ import java.util.Stack;
 import com.systems.ISystem;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,6 +21,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 public class Engine {
     public boolean isRunning;
@@ -46,17 +54,20 @@ public class Engine {
         StackPane root = new StackPane();
         root.setAlignment(javafx.geometry.Pos.CENTER);
         GridPane buttonGridPane = new GridPane();
-        buttonGridPane.setVgap(50);
+        buttonGridPane.setId("start-exit-button-gridpane");
+        buttonGridPane.setVgap(10);
         buttonGridPane.setAlignment(javafx.geometry.Pos.CENTER);
         Button startButton = new Button("Start");
         startButton.setId("start-button");
         startButton.getStyleClass().add("start-exit-button-style");
-        
+
         Button exitButton = new Button("Exit");
         exitButton.setId("exit-button");
         exitButton.getStyleClass().add("start-exit-button-style");
-        
-    
+        exitButton.setOnAction(value -> {
+            System.exit(0);
+        });
+
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
                 true);
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -64,10 +75,23 @@ public class Engine {
                         true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
+
+        Button instructionButton = new Button();
+        instructionButton.setId("instruction-button");
+        instructionButton.getStyleClass().add("instruction-button-style");
+        Image instructionImage = new Image(getClass().getResource("/background/question.png").toExternalForm());
+        ImageView instructionImageView = new ImageView(instructionImage);
+        instructionButton.setGraphic(instructionImageView);
+        instructionImageView.setFitWidth(50); // Set the desired width
+        instructionImageView.setFitHeight(50); // Set the desired height
+
+        StackPane.setAlignment(instructionButton, javafx.geometry.Pos.TOP_RIGHT);
+        StackPane.setMargin(instructionButton, new Insets(20, 20, 0, 0));
+
         buttonGridPane.add(startButton, 1, 0);
         buttonGridPane.add(exitButton, 1, 1);
-        root.getChildren().add(buttonGridPane);
-        buttonGridPane.setTranslateY(100);
+        root.getChildren().addAll(buttonGridPane, instructionButton);
+        buttonGridPane.setTranslateY(120);
         Scene startScene = new Scene(root, 1000, 700);
         return startScene;
     }
@@ -131,9 +155,62 @@ public class Engine {
         return playersScene;
     }
 
+    // public Scene createInstructionScene(){
+    //     StackPane root = new StackPane();   
+    //     root.setAlignment(javafx.geometry.Pos.CENTER);
+
+
+    // }
+
+    public Scene createWinningScene() {
+        StackPane root = new StackPane();
+        root.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Button menuButton = new Button("Menu");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(value -> {
+            System.exit(0);
+        });
+        // Images for alternating
+        Image image1 = new Image(getClass().getResource("/victoryAnimation/victory_down.png").toExternalForm());
+        ImageView winningImage = new ImageView(image1);
+        winningImage.setId("victory-image1");
+        winningImage.setPreserveRatio(true);
+        winningImage.setFitHeight(150);
+
+        // StackPane to hold images
+        StackPane imageStackPane = new StackPane();
+        imageStackPane.getChildren().add(winningImage); // Initially add image1
+
+        
+        menuButton.getStyleClass().add("menu-exit-button-style");
+        exitButton.getStyleClass().add("menu-exit-button-style");
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(imageStackPane);
+        borderPane.setLeft(menuButton);
+        borderPane.setRight(exitButton);
+        BorderPane.setMargin(menuButton, new Insets(100, 0, 0, 30));
+        BorderPane.setMargin(exitButton, new Insets(100, 30, 0, 0));
+
+        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
+                true);
+        BackgroundImage backgroundImage = new BackgroundImage(
+                new Image(getClass().getResource("/background/background1.jpg").toExternalForm(), 1000, 700, false,
+                        true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        root.setBackground(new Background(backgroundImage));
+
+        root.getChildren().add(borderPane);
+        Scene winningScene = new Scene(root, 1000, 700);
+        return winningScene;
+
+    }
+
     public Scene createMap() {
         StackPane root = new StackPane();
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
+        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
+                true);
         BackgroundImage backgroundImage = new BackgroundImage(
                 new Image(getClass().getResource("/background/background8.jpg").toExternalForm(), 1000, 700, false,
                         true),
