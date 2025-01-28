@@ -1,6 +1,7 @@
 package com;
 
 import com.core.Engine;
+import com.gui.GUI;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -10,7 +11,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Engine engine = new Engine();
+        GUI gui = new GUI(primaryStage);
+        Engine engine = new Engine(gui);
         Scene firstScene = engine.createMap();
 
         firstScene.getStylesheets().add(getClass().getResource("/button/main.css").toExternalForm());
@@ -21,7 +23,7 @@ public class Main extends Application {
         
         Scene startScene = engine.createStartScene();
         Scene playersScene = engine.createModePlayerScene();
-        Scene winningScene = engine.createWinningScene();
+        Scene winningScene = gui.createWinScene();
         Button startButton = (Button) startScene.lookup("#start-button");
         Button backButton = (Button) playersScene.lookup("#back-button");
         startButton.setOnAction(e -> primaryStage.setScene(playersScene)); // Switch to Scene 2
@@ -30,12 +32,9 @@ public class Main extends Application {
         
         startScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         playersScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-        winningScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-        
-        
         
         primaryStage.setTitle("Draft Map");
-        primaryStage.setScene(winningScene);
+        primaryStage.setScene(firstScene);
         primaryStage.show();
 
     }

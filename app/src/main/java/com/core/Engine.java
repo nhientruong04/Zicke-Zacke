@@ -3,6 +3,7 @@ package com.core;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import com.gui.GUI;
 import com.systems.ISystem;
 
 import javafx.animation.AnimationTimer;
@@ -33,15 +34,17 @@ public class Engine {
     public EntityCreator entity_creator;
     public NodeCreator node_creator;
     public AnimationTimer GameLoop;
+    public GUI gui;
 
     private Initializer initializer;
     private ArrayList<ISystem> systems;
 
-    public Engine() {
+    public Engine(GUI gui) {
         this.systems = new ArrayList<ISystem>();
         this.entity_creator = new EntityCreator();
         this.node_creator = new NodeCreator();
         this.initializer = new Initializer(this);
+        this.gui = gui;
 
         this.isRunning = false;
     }
@@ -161,51 +164,6 @@ public class Engine {
 
 
     // }
-
-    public Scene createWinningScene() {
-        StackPane root = new StackPane();
-        root.setAlignment(javafx.geometry.Pos.CENTER);
-
-        Button menuButton = new Button("Menu");
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(value -> {
-            System.exit(0);
-        });
-        // Images for alternating
-        Image image1 = new Image(getClass().getResource("/victoryAnimation/victory_down.png").toExternalForm());
-        ImageView winningImage = new ImageView(image1);
-        winningImage.setId("victory-image1");
-        winningImage.setPreserveRatio(true);
-        winningImage.setFitHeight(150);
-
-        // StackPane to hold images
-        StackPane imageStackPane = new StackPane();
-        imageStackPane.getChildren().add(winningImage); // Initially add image1
-
-        
-        menuButton.getStyleClass().add("menu-exit-button-style");
-        exitButton.getStyleClass().add("menu-exit-button-style");
-
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(imageStackPane);
-        borderPane.setLeft(menuButton);
-        borderPane.setRight(exitButton);
-        BorderPane.setMargin(menuButton, new Insets(100, 0, 0, 30));
-        BorderPane.setMargin(exitButton, new Insets(100, 30, 0, 0));
-
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
-                true);
-        BackgroundImage backgroundImage = new BackgroundImage(
-                new Image(getClass().getResource("/background/background1.jpg").toExternalForm(), 1000, 700, false,
-                        true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-        root.setBackground(new Background(backgroundImage));
-
-        root.getChildren().add(borderPane);
-        Scene winningScene = new Scene(root, 1000, 700);
-        return winningScene;
-
-    }
 
     public Scene createMap() {
         StackPane root = new StackPane();

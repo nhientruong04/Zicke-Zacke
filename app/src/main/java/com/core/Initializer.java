@@ -29,6 +29,7 @@ public class Initializer {
     private MoveSystem move_system;
     private TurnHUDDisplaySystem turn_HUD_system;
     private PlayerAnimateSystem animate_system;
+    private WinSystem win_system;
 
     public Initializer(Engine engine) {
         this.engine = engine;
@@ -302,11 +303,13 @@ public class Initializer {
         this.move_system = new MoveSystem(trackTile_nodes_list, player_nodes_list);
         this.turn_HUD_system = new TurnHUDDisplaySystem(player_nodes_list, turn_and_tile_HUD, trackTile_img_indices);
         this.animate_system = new PlayerAnimateSystem(player_nodes_list);
+        this.win_system = new WinSystem(player_nodes_list, this.engine.gui);
 
         this.engine.addSystem(this.logic_system);
         this.engine.addSystem(this.move_system);
         this.engine.addSystem(this.turn_HUD_system);
         this.engine.addSystem(this.animate_system);
+        this.engine.addSystem(this.win_system);
 
         root.getChildren().addAll(borderPane, trackTiles_layout, octaTiles_under_layout, octaTiles_top_layout, move_layout); // add according to order
     }
