@@ -50,6 +50,8 @@ public class Initializer {
         int tileColumns = 8;
         double tileWidth = (Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE) + 15; // Example size for each tile
         double tileHeight = (Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5;
+        double mapWidth = Settings.WIDTH; // Match the background width
+        double mapHeight = Settings.HEIGHT; // Match the background height
 
         double layout_width = tileColumns * tileWidth;
         double layout_height = tileRows * tileHeight;
