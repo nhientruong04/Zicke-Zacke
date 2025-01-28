@@ -12,6 +12,8 @@ import com.entities.*;
 import com.nodes.*;
 import com.systems.*;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -49,13 +51,23 @@ public class Initializer {
         // Load and arrange 24 tiles at the center of the map
         int tileRows = 8;
         int tileColumns = 8;
-        double tileWidth = (Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE) + 15; // Example size for each tile
-        double tileHeight = (Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE) + 5;
-        double mapWidth = Settings.WIDTH; // Match the background width
-        double mapHeight = Settings.HEIGHT; // Match the background height
 
-        double layout_width = tileColumns * tileWidth;
-        double layout_height = tileRows * tileHeight;
+        DoubleProperty tile_scale = new SimpleDoubleProperty();
+        tile_scale.bind(trackTiles_layout.heightProperty().divide(350));
+        DoubleProperty x_padding = new SimpleDoubleProperty();
+        x_padding.bind(tile_scale.multiply(7.5));
+        DoubleProperty y_padding = new SimpleDoubleProperty();
+        y_padding.bind(tile_scale.multiply(2.5));
+
+        DoubleProperty tile_height = new SimpleDoubleProperty();
+        tile_height.bind(tile_scale.multiply(Settings.TRACKTILE_HEIGHT_BASE).add(y_padding));
+        DoubleProperty tile_width = new SimpleDoubleProperty();
+        tile_width.bind(tile_scale.multiply(Settings.TRACKTILE_WIDTH_BASE).add(x_padding));
+
+        DoubleProperty layout_width = new SimpleDoubleProperty();
+        layout_width.bind(tile_width.multiply(tileColumns));
+        DoubleProperty layout_height = new SimpleDoubleProperty();
+        layout_height.bind(tile_height.multiply(tileRows));
 
         // double startX = (mapWidth - layout_width) / 2 + 15;
         // double startY = (mapHeight - layout_height) / 2 + 5;
@@ -76,16 +88,16 @@ public class Initializer {
                 row = Integer.parseInt(pos[1]);
 
                 // read image according to tile id
-                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm()); // take modulo since there are 24 tracktiles with 12 octa tiles/images
+                Image tileImg = new Image(getClass().getResource("/track_tiles/" + img_id + ".png").toExternalForm());
                 ImageView tileImgView = new ImageView(tileImg);
-                tileImgView.setFitWidth(Settings.TRACKTILE_WIDTH_BASE * Settings.TILE_SIZE_SCALE);
-                tileImgView.setFitHeight(Settings.TRACKTILE_HEIGHT_BASE * Settings.TILE_SIZE_SCALE);
+                tileImgView.fitHeightProperty().bind(trackTiles_layout.heightProperty().divide(350).multiply(Settings.TRACKTILE_HEIGHT_BASE));
+                tileImgView.setPreserveRatio(true);
 
                 // Position the tile
-                // tileImgView.setLayoutX(startX + column * tileWidth);
-                tileImgView.layoutXProperty().bind(trackTiles_layout.widthProperty().subtract(layout_width).divide(2).add(15).add(column*tileWidth));
-                // tileImgView.setLayoutY(startY + row * tileHeight);
-                tileImgView.layoutYProperty().bind(trackTiles_layout.heightProperty().subtract(layout_height).divide(2).add(5).add(row*tileHeight));
+                // startX + column * tileWidth
+                tileImgView.layoutXProperty().bind(trackTiles_layout.widthProperty().subtract(layout_width).divide(2).add(x_padding).add(tile_width.multiply(column)));
+                // startY + row * tileHeight
+                tileImgView.layoutYProperty().bind(trackTiles_layout.heightProperty().subtract(layout_height).divide(2).add(y_padding).add(tile_height.multiply(row)));
 
                 // instantiate track tile entity
                 TrackTile track_tile = engine.entity_creator.createTrackTile(tile_id, img_id, tileImgView);
