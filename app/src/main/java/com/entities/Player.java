@@ -7,7 +7,6 @@ import com.components.Position;
 public class Player extends Entity {
     public Position position;    
     public FeatherList feather_list;
-    public FXObject fx_object;
 
     public Player(Position position, FeatherList feather_list, FXObject fx_object) {
         this.position = position;
