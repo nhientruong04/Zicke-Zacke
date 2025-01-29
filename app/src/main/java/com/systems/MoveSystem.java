@@ -19,21 +19,6 @@ public class MoveSystem extends ISystem {
     public MoveSystem(ArrayList<TrackTileNode> trackTile_nodes, ArrayList<PlayerNode> player_nodes) {
         this.trackTile_nodes = trackTile_nodes;
         this.player_nodes = player_nodes;
-
-        this.initial_position();
-    }
-
-    private void initial_position() {
-        for (int i=0; i<this.player_nodes.size(); i++) {
-            PlayerNode player_node = this.player_nodes.get(i);
-            int dest_tileId = player_node.position.tile_id; // get the presumed position
-            
-            ImageView trackTileView = this.trackTile_nodes.get(dest_tileId).fx_object.object;
-            System.out.println("Tile id: " + dest_tileId + ", object " + trackTileView);
-
-            player_node.fx_object.object.setLayoutX(trackTileView.getLayoutX() - Settings.CHICKEN_PADDING_X);
-            player_node.fx_object.object.setLayoutY(trackTileView.getLayoutY() - Settings.CHICKEN_PADDING_Y);
-        }
     }
 
     @Override
@@ -49,7 +34,6 @@ public class MoveSystem extends ISystem {
             double targetY = trackTileView.getLayoutY() - Settings.CHICKEN_PADDING_Y;
             double startY = player_node.fx_object.object.getLayoutY();
 
-            // TODO: incorrect condition
             if (startX!=targetX | startY!=targetY) {
                 // QuadCurve curve = new QuadCurve(
                 // startX, startY, // Start point
