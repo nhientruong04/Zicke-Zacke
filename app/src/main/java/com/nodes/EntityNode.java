@@ -2,6 +2,6 @@ package com.nodes;
 
 import com.components.FXObject;
 
-public abstract class TileNode extends Node{
+public abstract class EntityNode extends Node{
     public FXObject fx_object;
 }

@@ -4,10 +4,9 @@ import com.components.FXObject;
 import com.components.FeatherList;
 import com.components.Position;
 
-public class PlayerNode extends Node {
+public class PlayerNode extends EntityNode {
     public Position position;
     public FeatherList feather_list;
-    public FXObject fx_object;
     public boolean inTurn;
 
     public PlayerNode (Position position, FeatherList feather_list, FXObject fx_object) {

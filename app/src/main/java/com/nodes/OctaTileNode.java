@@ -3,7 +3,7 @@ package com.nodes;
 import com.components.FXObject;
 import com.components.TileSelectedState;
 
-public class OctaTileNode extends TileNode {
+public class OctaTileNode extends EntityNode {
     public TileSelectedState selected;
 
     public OctaTileNode (FXObject fx_object, TileSelectedState selected) {
