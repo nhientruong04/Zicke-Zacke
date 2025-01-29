@@ -19,7 +19,7 @@ public class LogicSystem extends ISystem {
     private ArrayList<PlayerNode> player_nodes;
     private ArrayList<TrackTileNode> trackTile_nodes;
 
-    public int turn_index;
+    private int turn_index;
 
     public LogicSystem(ArrayList<OctaTileNode> octaTile_nodes, ArrayList<ButtonNode> button_nodes, ArrayList<PlayerNode> player_nodes, ArrayList<TrackTileNode> trackTile_nodes) {
         this.octaTile_nodes = octaTile_nodes;
