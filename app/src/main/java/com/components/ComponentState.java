@@ -1,4 +1,4 @@
 package com.components;
 
-public class ComponentState {
+public abstract class ComponentState extends Component {
 }
