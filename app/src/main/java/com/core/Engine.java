@@ -282,11 +282,7 @@ public final class Engine {
         return playersScene;
     }
 
-    // public Scene createInstructionScene(){
-    // StackPane root = new StackPane();
-    // root.setAlignment(javafx.geometry.Pos.CENTER);
-
-    // }
+    
 
     public Scene createMap() {
         StackPane root = new StackPane();
