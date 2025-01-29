@@ -13,17 +13,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         GUI gui = new GUI(primaryStage);
         Engine engine = new Engine(gui);
-        Scene firstScene = engine.createMap();
-
-        firstScene.getStylesheets().add(getClass().getResource("/button/main.css").toExternalForm());
-        firstScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
-        
-        engine.run();
-
         
         Scene startScene = engine.createStartScene();
         Scene playersScene = engine.createModePlayerScene();
-        Scene winningScene = gui.createWinScene();
         Button startButton = (Button) startScene.lookup("#start-button");
         Button backButton = (Button) playersScene.lookup("#back-button");
         startButton.setOnAction(e -> primaryStage.setScene(playersScene)); // Switch to Scene 2
@@ -34,7 +26,7 @@ public class Main extends Application {
         playersScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         
         primaryStage.setTitle("Draft Map");
-        primaryStage.setScene(firstScene);
+        primaryStage.setScene(startScene);
         primaryStage.show();
 
     }

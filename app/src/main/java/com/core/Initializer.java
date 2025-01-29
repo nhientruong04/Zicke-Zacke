@@ -205,7 +205,7 @@ public class Initializer {
     private void addPlayers(Pane move_layout, GridPane hud_section, ArrayList<PlayerNode> player_nodes_list) {
         // TODO: bullshit player randomization
 
-        Integer num_player = Settings.PLAYERS;
+        Integer num_player = Settings.getInstance().getPlayerNumber();
         Image feather_img = new Image(getClass().getResource("/feather/feather.png").toExternalForm());
 
         Random rand = new Random();

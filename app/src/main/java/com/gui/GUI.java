@@ -67,4 +67,8 @@ public class GUI {
         winningScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         return winningScene;
     }
+
+    public void setScene(Scene scene) {
+        this.primaryStage.setScene(scene);
+    }
 }

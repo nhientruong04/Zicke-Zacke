@@ -46,7 +46,7 @@ public class Utils {
         
         int player_ind = 0;
 
-        while (player_ind<Settings.PLAYERS-1) {
+        while (player_ind<Settings.getInstance().getPlayerNumber()-1) {
             if (player_nodes_cloned.get(player_ind).position.tile_id==(nextTileId%24)) {
                 nextTileId++;
                 player_ind = -1;

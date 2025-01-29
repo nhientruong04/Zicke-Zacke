@@ -18,7 +18,7 @@ public class WinSystem extends ISystem{
     @Override
     public void update() {
         for (PlayerNode node: this.player_nodes) {
-            if(node.feather_list.feathers.size()==Settings.PLAYERS) {
+            if(node.feather_list.feathers.size()==Settings.getInstance().getPlayerNumber()) {
                 this.gui.primaryStage.setScene(gui.createWinScene());
             }
         }

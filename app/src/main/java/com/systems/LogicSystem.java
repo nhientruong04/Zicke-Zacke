@@ -76,7 +76,7 @@ public class LogicSystem extends ISystem {
         this.player_nodes.get(this.turn_index).removeTurn();
 
         // get new turn index and set turn
-        this.turn_index = (this.turn_index + 1) % Settings.PLAYERS;
+        this.turn_index = (this.turn_index + 1) % Settings.getInstance().getPlayerNumber();
         this.player_nodes.get(this.turn_index).setTurn();
     }
 
@@ -102,7 +102,7 @@ public class LogicSystem extends ISystem {
                         // loop to get feathers
                         int player_ind = 0;
 
-                        while (player_ind<Settings.PLAYERS) {
+                        while (player_ind<Settings.getInstance().getPlayerNumber()) {
                             // only consider players not in turn
                             if (player_ind != this.turn_index) {
                                 // the tile id of the current player

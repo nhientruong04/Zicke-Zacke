@@ -28,9 +28,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
-public class Engine {
-    public boolean isRunning;
-
+public final class Engine {
     public EntityCreator entity_creator;
     public NodeCreator node_creator;
     public AnimationTimer GameLoop;
@@ -45,8 +43,6 @@ public class Engine {
         this.node_creator = new NodeCreator();
         this.initializer = new Initializer(this);
         this.gui = gui;
-
-        this.isRunning = false;
     }
 
     public void addSystem(ISystem system) {
@@ -105,8 +101,23 @@ public class Engine {
         root.setAlignment(javafx.geometry.Pos.CENTER);
 
         Button twoPlayersButton = new Button("2 Players");
+        twoPlayersButton.setOnAction(e -> {
+                Settings.getInstance().setPlayerNumber(2);
+                this.gui.setScene(this.createMap());
+                this.run();
+            });
         Button threePlayersButton = new Button("3 Players");
+        threePlayersButton.setOnAction(e -> {
+                Settings.getInstance().setPlayerNumber(3);
+                this.gui.setScene(this.createMap());
+                this.run();
+            });
         Button fourPlayersButton = new Button("4 Players");
+        fourPlayersButton.setOnAction(e -> {
+            Settings.getInstance().setPlayerNumber(4);
+            this.gui.setScene(this.createMap());
+            this.run();
+        });
         Button backButton = new Button("Back");
 
         // Set IDs and styles for buttons
@@ -175,6 +186,9 @@ public class Engine {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
         Scene firstScene = new Scene(root, Settings.WIDTH, Settings.HEIGHT);
+
+        firstScene.getStylesheets().add(getClass().getResource("/button/main.css").toExternalForm());
+        firstScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
 
         this.initializer.initGame(root);
 

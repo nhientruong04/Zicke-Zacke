@@ -1,11 +1,14 @@
 package com.core;
 
 public class Settings {
+    private static final Settings instance = new Settings();
+
+    private int PLAYERS;
+
     public static int MAX_TILES;
     public static double FPS;
     public static int WIDTH;
     public static int HEIGHT;
-    public static int PLAYERS;
     public static double STAND_PADDING;
 
     // tiles config
@@ -31,7 +34,6 @@ public class Settings {
         FPS = 30;
         WIDTH = 1000;
         HEIGHT = 700;
-        PLAYERS = 4;
         STAND_PADDING = 12.0f;
 
         TRACKTILE_HEIGHT_BASE = 25.0f;
@@ -50,5 +52,17 @@ public class Settings {
 
         FEATHER_HEIGHT = 50;
         FEATHER_WIDTH = 50;
+    }
+
+    public static Settings getInstance() {
+        return instance;
+    }
+
+    public int getPlayerNumber() {
+        return this.PLAYERS;
+    }
+
+    public void setPlayerNumber(int num) {
+        this.PLAYERS = num;
     }
 }
