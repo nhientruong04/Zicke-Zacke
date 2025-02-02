@@ -289,7 +289,7 @@ public final class Engine {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
                 true);
         BackgroundImage backgroundImage = new BackgroundImage(
-                new Image(getClass().getResource("/background/background8.jpg").toExternalForm(), 1000, 700, false,
+                new Image(getClass().getResource("/background/background_grass1.png").toExternalForm(), 1000, 700, false,
                         true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
