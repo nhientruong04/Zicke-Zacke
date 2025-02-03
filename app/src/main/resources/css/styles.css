@@ -67,6 +67,29 @@
     -fx-background-radius: 30px;
 }
 
+#instruction-pane {
+    -fx-background-color: rgba(0, 0, 0, 0.9); 
+    -fx-border-color: #d8a938;
+    -fx-padding: 10px 20px;
+    -fx-border-width: 2px;
+    -fx-max-width: 600px;
+    -fx-max-height: 500px;
+    -fx-border-radius: 30px;
+    -fx-background-radius: 30px;
+}
+
+.instruction-text{
+    -fx-font-size: 10px;
+    -fx-font-family: "Supercell-Magic";
+    -fx-fill: rgb(146, 147, 147);
+}
+
+.instruction-text-title{
+    -fx-font-size: 16px;
+    -fx-font-family: "Supercell-Magic";
+    -fx-fill: rgb(163, 127, 43);
+}
+
 .menu-exit-button-style{
     -fx-background-color: rgba(0, 0, 0, 0.9); 
     -fx-border-color: #d8a938;

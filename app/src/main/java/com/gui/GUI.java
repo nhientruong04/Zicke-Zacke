@@ -56,7 +56,7 @@ public class GUI {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true,
                 true);
         BackgroundImage backgroundImage = new BackgroundImage(
-                new Image(getClass().getResource("/background/background1.jpg").toExternalForm(), 1000, 700, false,
+                new Image(getClass().getResource("/background/background8.jpg").toExternalForm(), 1000, 700, false,
                         true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
@@ -67,6 +67,8 @@ public class GUI {
         winningScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         return winningScene;
     }
+
+    
 
     public void setScene(Scene scene) {
         this.primaryStage.setScene(scene);
