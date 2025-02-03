@@ -1,5 +1,12 @@
 package com.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.core.Settings;
+import com.core.Utils;
+
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +18,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -22,9 +30,22 @@ public class GUI {
         this.primaryStage = primaryStage;
     }
 
-    public Scene createWinScene() {
+    public Scene createWinScene(int winner_id) {
         StackPane root = new StackPane();
         root.setAlignment(javafx.geometry.Pos.CENTER);
+
+        ImageView winner = new ImageView(new Image(getClass().getResource("/chicken/chicken_" + winner_id + "/1.png").toExternalForm()));
+        winner.fitWidthProperty().bind(root.maxWidthProperty().divide(300).multiply(Settings.CHICKEN_WIDTH_BASE));
+        winner.setPreserveRatio(true);
+
+        List<Image> frames = new ArrayList<Image>();
+
+        frames.add(new Image(getClass().getResource("/chicken/chicken_" + winner_id + "/1.png").toExternalForm()));
+        frames.add(new Image(getClass().getResource("/chicken/chicken_" + winner_id + "/2.png").toExternalForm()));
+        frames.add(new Image(getClass().getResource("/chicken/chicken_" + winner_id + "/3.png").toExternalForm()));
+        frames.add(new Image(getClass().getResource("/chicken/chicken_" + winner_id + "/4.png").toExternalForm()));
+
+        Timeline sprite_timeLine = Utils.createAnimation(winner, frames);
 
         Button menuButton = new Button("Menu");
         Button exitButton = new Button("Exit");
@@ -42,11 +63,11 @@ public class GUI {
         StackPane imageStackPane = new StackPane();
         imageStackPane.getChildren().add(winningImage); // Initially add image1
 
-        
         menuButton.getStyleClass().add("menu-exit-button-style");
         exitButton.getStyleClass().add("menu-exit-button-style");
 
         BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(winner);
         borderPane.setTop(imageStackPane);
         borderPane.setLeft(menuButton);
         borderPane.setRight(exitButton);
@@ -61,10 +82,13 @@ public class GUI {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         root.setBackground(new Background(backgroundImage));
 
-        root.getChildren().add(borderPane);
+        root.getChildren().addAll(borderPane);
         Scene winningScene = new Scene(root, 1000, 700);
 
         winningScene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+        sprite_timeLine.play();
+
         return winningScene;
     }
 

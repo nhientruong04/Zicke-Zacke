@@ -19,7 +19,7 @@ public class WinSystem extends ISystem{
     public void update() {
         for (PlayerNode node: this.player_nodes) {
             if(node.feather_list.feathers.size()==Settings.getInstance().getPlayerNumber()) {
-                this.gui.primaryStage.setScene(gui.createWinScene());
+                this.gui.primaryStage.setScene(gui.createWinScene(node.fx_object.img_id));
             }
         }
     }
