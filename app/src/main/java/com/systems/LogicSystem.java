@@ -12,12 +12,16 @@ import com.nodes.OctaTileNode;
 
 import com.core.Settings;
 import com.core.Utils;
+import javafx.scene.media.AudioClip;
 
 public class LogicSystem extends ISystem {
     private ArrayList<OctaTileNode> octaTile_nodes;
     private ArrayList<ButtonNode> button_nodes;
     private ArrayList<PlayerNode> player_nodes;
     private ArrayList<TrackTileNode> trackTile_nodes;
+
+    private AudioClip correct_sound;
+    private AudioClip incorrect_sound;
 
     private int turn_index;
 
@@ -26,6 +30,9 @@ public class LogicSystem extends ISystem {
         this.button_nodes = button_nodes;
         this.player_nodes = player_nodes;
         this.trackTile_nodes = trackTile_nodes;
+
+        this.correct_sound = new AudioClip(getClass().getResource("/sound/feather_take_sound.wav").toString());
+        this.incorrect_sound = new AudioClip(getClass().getResource("/sound/wrong_choose_sound.wav").toString());
 
         this.turn_index = 0;
         this.player_nodes.get(0).setTurn(); // set turn to the first player
@@ -118,12 +125,16 @@ public class LogicSystem extends ISystem {
                         }
                     }
 
+                    this.correct_sound.play();
+
                     this.printCurrentPlayerState(chosenImgId);
                     // change position for MoveSystem to process
                     this.player_nodes.get(this.turn_index).position.tile_id = nextTileId%24; // since nextTileId is not modulo
 
                     this.printAllPlayerState();
                 } else {
+                    this.incorrect_sound.play();
+
                     // change turn if player chose wrong
                     this.changeTurn();
                 }

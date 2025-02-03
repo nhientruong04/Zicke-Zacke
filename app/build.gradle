@@ -35,7 +35,7 @@ java {
 
 javafx {
     version = "23.0.1"
-    modules = [ 'javafx.controls', 'javafx.base' ]
+    modules = [ 'javafx.controls', 'javafx.base', 'javafx.media' ]
 }
 
 application {
