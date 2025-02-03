@@ -7,7 +7,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 public class Main extends Application {
+
+    private MediaPlayer background_music;
 
     @Override
     public void start(Stage primaryStage) {
@@ -29,6 +35,11 @@ public class Main extends Application {
         primaryStage.setScene(startScene);
         primaryStage.show();
 
+        this.background_music = new MediaPlayer(new Media(getClass().getResource("/sound/background_music.wav").toExternalForm()));
+
+        background_music.setCycleCount(MediaPlayer.INDEFINITE);
+        background_music.setVolume(0.5);
+        background_music.play();
     }
 
     public static void main(String[] args) {

@@ -32,7 +32,9 @@ public class LogicSystem extends ISystem {
         this.trackTile_nodes = trackTile_nodes;
 
         this.correct_sound = new AudioClip(getClass().getResource("/sound/feather_take_sound.wav").toString());
+        this.correct_sound.setVolume(0.6);
         this.incorrect_sound = new AudioClip(getClass().getResource("/sound/wrong_choose_sound.wav").toString());
+        this.incorrect_sound.setVolume(0.6);
 
         this.turn_index = 0;
         this.player_nodes.get(0).setTurn(); // set turn to the first player
