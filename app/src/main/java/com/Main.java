@@ -35,11 +35,17 @@ public class Main extends Application {
         primaryStage.setScene(startScene);
         primaryStage.show();
 
-        this.background_music = new MediaPlayer(new Media(getClass().getResource("/sound/background_music.wav").toExternalForm()));
+        try {
+            this.background_music = new MediaPlayer(new Media(getClass().getResource("/sound/background_music.wav").toExternalForm()));
 
-        background_music.setCycleCount(MediaPlayer.INDEFINITE);
-        background_music.setVolume(0.5);
-        background_music.play();
+            background_music.setCycleCount(MediaPlayer.INDEFINITE);
+            background_music.setVolume(0.5);
+            background_music.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
     }
 
     public static void main(String[] args) {
